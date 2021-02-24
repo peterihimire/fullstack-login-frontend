@@ -125,14 +125,18 @@ h4 {
 }
 /* LAPTOP */
 @media (min-width: 993px) {
-  .container {
-    width: 80% !important;
+  .hidden-md {
+    display: none;
+    visibility: hidden;
   }
 }
 /* iPAD */
 @media (max-width: 992px) {
   .btn-full-width {
     width: 100%;
+  }
+  .hidden-md {
+    display: none;
   }
 }
 /* iPHONE */
