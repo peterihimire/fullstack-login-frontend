@@ -12,6 +12,7 @@ import UpdatePropertiesPage from "./properties/pages/UpdatePropertiesPage";
 import NewProperty from "./properties/pages/NewPropertyPage";
 import UsersPage from "./user/pages/UsersPage";
 import SingleUser from "./user/pages/SingleUserPage";
+import PropertyDescription from "./properties/pages/PropertyDescriptionPage";
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
 
 function App() {
@@ -31,6 +32,9 @@ function App() {
           </Route>
           <Route path="/properties/:propertyId" exact>
             <UpdatePropertiesPage />
+          </Route>
+          <Route path="/properties/description/:slug" exact>
+            <PropertyDescription />
           </Route>
           <Route path="/users">
             <UsersPage />
