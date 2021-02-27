@@ -265,79 +265,23 @@ class NewPropertyPage extends React.Component {
     this.setState({ descriptionValid, errorMsg }, this.validateForm);
   };
 
-  // updateEmail = (email) => {
-  //   this.setState({ email }, this.validateEmail);
-  // };
-
-  // validateEmail = () => {
-  //   const { email } = this.state;
-  //   let emailValid = true;
-  //   let errorMsg = { ...this.state.errorMsg };
-
-  //   // checks for format _@_._
-  //   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-  //     emailValid = false;
-  //     errorMsg.email = "Invalid email format";
-  //   }
-
-  //   this.setState({ emailValid, errorMsg }, this.validateForm);
-  // };
-
-  // updatePassword = (password) => {
-  //   this.setState({ password }, this.validatePassword);
-  // };
-
-  // validatePassword = () => {
-  //   const { password } = this.state;
-  //   let passwordValid = true;
-  //   let errorMsg = { ...this.state.errorMsg };
-
-  //   // must be 6 chars
-  //   // must contain a number
-  //   // must contain a special character
-
-  //   if (password.length < 6) {
-  //     passwordValid = false;
-  //     errorMsg.password = "Password must be at least 6 characters long";
-  //   } else if (!/\d/.test(password)) {
-  //     passwordValid = false;
-  //     errorMsg.password = "Password must contain a digit";
-  //   } else if (!/[!@#$%^&*]/.test(password)) {
-  //     passwordValid = false;
-  //     errorMsg.password = "Password must contain special character: !@#$%^&*";
-  //   }
-
-  //   this.setState({ passwordValid, errorMsg }, this.validateForm);
-  // };
-
-  // updatePasswordConfirm = (passwordConfirm) => {
-  //   this.setState({ passwordConfirm }, this.validatePasswordConfirm);
-  // };
-
-  // validatePasswordConfirm = () => {
-  //   const { passwordConfirm, password } = this.state;
-  //   let passwordConfirmValid = true;
-  //   let errorMsg = { ...this.state.errorMsg };
-
-  //   if (password !== passwordConfirm) {
-  //     passwordConfirmValid = false;
-  //     errorMsg.passwordConfirm = "Passwords do not match";
-  //   }
-
-  //   this.setState({ passwordConfirmValid, errorMsg }, this.validateForm);
-  // };
-
-  submitHandler = (e) => {
+  propertySubmitHandler = (e) => {
     e.preventDefault();
-    console.log("Username:" + this.state.username);
-    console.log("Email:" + this.state.email);
-    console.log("Password:" + this.state.password);
+    console.log("name:" + this.state.name);
+    console.log("slug:" + this.state.slug);
+    console.log("location:" + this.state.location);
+    console.log("amount:" + this.state.amount);
+    console.log("completion:" + this.state.completion);
+    console.log("description:" + this.state.description);
 
     const data = {
-      username: this.state.username,
-      email: this.state.email,
-      password: this.state.password,
-    };
+      name: this.state.name,
+      slug: this.state.slug,
+      location: this.state.location,
+      amount: this.state.amount,
+      completion: this.state.completion,
+      description: this.state.description,
+    }; // Sending this to the backend
     console.log(data);
   };
 
@@ -345,115 +289,116 @@ class NewPropertyPage extends React.Component {
     return (
       <div className="App">
         {/* <header>Form Validation</header> */}
-        <main role="main">
-          <form action="#" id="js-form" onSubmit={this.submitHandler}>
-            <div className="form-group">
-              <label htmlFor="name">Name</label>
-              <ValidationMessage
-                valid={this.state.nameValid}
-                message={this.state.errorMsg.name}
-              />
-              <input
-                type="text"
-                id="name"
-                name="name"
-                className="form-field"
-                value={this.state.name}
-                onChange={(e) => this.updateName(e.target.value)}
-              />
-            </div>
+        {/* <main role="main"> */}
+        <form action="#" id="js-form" onSubmit={this.propertySubmitHandler}>
+          <div className="form-group">
+            <label htmlFor="name">Name</label>
+            <ValidationMessage
+              valid={this.state.nameValid}
+              message={this.state.errorMsg.name}
+            />
+            <input
+              type="text"
+              id="name"
+              name="name"
+              className="form-field"
+              value={this.state.name}
+              onChange={(e) => this.updateName(e.target.value)}
+            />
+          </div>
 
-            <div className="form-group">
-              <label htmlFor="slug">slug</label>
-              <ValidationMessage
-                valid={this.state.slugValid}
-                message={this.state.errorMsg.slug}
-              />
-              <input
-                type="text"
-                id="slug"
-                name="slug"
-                className="form-field"
-                value={this.state.slug}
-                onChange={(e) => this.updateSlug(e.target.value)}
-              />
-            </div>
+          <div className="form-group">
+            <label htmlFor="slug">slug</label>
+            <ValidationMessage
+              valid={this.state.slugValid}
+              message={this.state.errorMsg.slug}
+            />
+            <input
+              type="text"
+              id="slug"
+              name="slug"
+              className="form-field"
+              value={this.state.slug}
+              onChange={(e) => this.updateSlug(e.target.value)}
+            />
+          </div>
 
-            <div className="form-group">
-              <label htmlFor="location">location</label>
-              <ValidationMessage
-                valid={this.state.locationValid}
-                message={this.state.errorMsg.location}
-              />
-              <input
-                type="text"
-                id="location"
-                name="location"
-                className="form-field"
-                value={this.state.location}
-                onChange={(e) => this.updateLocation(e.target.value)}
-              />
-            </div>
+          <div className="form-group">
+            <label htmlFor="location">location</label>
+            <ValidationMessage
+              valid={this.state.locationValid}
+              message={this.state.errorMsg.location}
+            />
+            <input
+              type="text"
+              id="location"
+              name="location"
+              className="form-field"
+              value={this.state.location}
+              onChange={(e) => this.updateLocation(e.target.value)}
+            />
+          </div>
 
-            <div className="form-group">
-              <label htmlFor="amount">amount</label>
-              <ValidationMessage
-                valid={this.state.amountValid}
-                message={this.state.errorMsg.amount}
-              />
-              <input
-                type="text"
-                id="amount"
-                name="amount"
-                className="form-field"
-                value={this.state.amount}
-                onChange={(e) => this.updateAmount(e.target.value)}
-              />
-            </div>
+          <div className="form-group">
+            <label htmlFor="amount">amount</label>
+            <ValidationMessage
+              valid={this.state.amountValid}
+              message={this.state.errorMsg.amount}
+            />
+            <input
+              type="text"
+              id="amount"
+              name="amount"
+              className="form-field"
+              value={this.state.amount}
+              onChange={(e) => this.updateAmount(e.target.value)}
+            />
+          </div>
 
-            <div className="form-group">
-              <label htmlFor="completion">completion</label>
-              <ValidationMessage
-                valid={this.state.completionValid}
-                message={this.state.errorMsg.completion}
-              />
-              <input
-                type="text"
-                id="completion"
-                name="completion"
-                className="form-field"
-                value={this.state.completion}
-                onChange={(e) => this.updateCompletion(e.target.value)}
-              />
-            </div>
+          <div className="form-group">
+            <label htmlFor="completion">completion</label>
+            <ValidationMessage
+              valid={this.state.completionValid}
+              message={this.state.errorMsg.completion}
+            />
+            <input
+              type="text"
+              id="completion"
+              name="completion"
+              className="form-field"
+              value={this.state.completion}
+              onChange={(e) => this.updateCompletion(e.target.value)}
+            />
+          </div>
 
-            <div className="form-group">
-              <label htmlFor="description">description</label>
-              <ValidationMessage
-                valid={this.state.descriptionValid}
-                message={this.state.errorMsg.description}
-              />
-              <input
-                type="text"
-                id="description"
-                name="description"
-                className="form-field"
-                value={this.state.description}
-                onChange={(e) => this.updateDescription(e.target.value)}
-              />
-            </div>
+          <div className="form-group">
+            <label htmlFor="description">description</label>
+            <ValidationMessage
+              valid={this.state.descriptionValid}
+              message={this.state.errorMsg.description}
+            />
+            <textarea
+              type="text"
+              id="description"
+              name="description"
+              rows="8"
+              className="form-field-2"
+              value={this.state.description}
+              onChange={(e) => this.updateDescription(e.target.value)}
+            ></textarea>
+          </div>
 
-            <div className="form-controls">
-              <button
-                className="button"
-                type="submit"
-                disabled={!this.state.formValid}
-              >
-                Sign Up
-              </button>
-            </div>
-          </form>
-        </main>
+          <div className="form-controls">
+            <button
+              className="button"
+              type="submit"
+              disabled={!this.state.formValid}
+            >
+              Add Property
+            </button>
+          </div>
+        </form>
+        {/* </main> */}
       </div>
     );
   }

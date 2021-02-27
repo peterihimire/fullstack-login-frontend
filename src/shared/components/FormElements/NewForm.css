@@ -130,7 +130,6 @@ button:hover {
   margin: auto;
 } */
 
-
 /* *{
   box-sizing: border-box;
   margin: 0;
@@ -159,10 +158,10 @@ button:hover {
 
 form {
   min-width: 500px;
-  text-align:center;
+  text-align: center;
   padding: 20px;
   background-color: white;
-  box-shadow: 4px 5px 5px 1px rgba(0,0,0,0.75);
+  box-shadow: 4px 5px 5px 1px rgba(0, 0, 0, 0.75);
   border-radius: 3px;
 }
 
@@ -176,13 +175,18 @@ form {
   font-size: 22px;
 }
 
+.form-field-2 {
+  min-width: 340px;
+  resize: none;
+}
+
 label {
   display: block;
   margin-bottom: 3px;
 }
 
 .button {
-  background-color: #4CAF50; /* Green */
+  background-color: #4caf50; /* Green */
   border: none;
   color: white;
   padding: 15px 32px;
