@@ -281,12 +281,12 @@ class NewForm extends React.Component {
     this.setState({
       formValid:
         usernameValid && emailValid && passwordValid && passwordConfirmValid,
-        // console.log(
-        //   usernameValid,
-        //   emailValid,
-        //   passwordValid,
-        //   passwordConfirmValid
-        // ),
+      // console.log(
+      //   usernameValid,
+      //   emailValid,
+      //   passwordValid,
+      //   passwordConfirmValid
+      // ),
     });
   };
 
@@ -369,12 +369,26 @@ class NewForm extends React.Component {
     this.setState({ passwordConfirmValid, errorMsg }, this.validateForm);
   };
 
+  submitHandler = (e) => {
+    e.preventDefault();
+    console.log("Username:" + this.state.username);
+    console.log("Email:" + this.state.email);
+    console.log("Password:" + this.state.password);
+
+    const data = {
+      username: this.state.username,
+      email: this.state.email,
+      password: this.state.password,
+    };
+    console.log(data);
+  };
+
   render() {
     return (
       <div className="App">
         <header>Form Validation</header>
         <main role="main">
-          <form action="#" id="js-form">
+          <form action="#" id="js-form" onSubmit={this.submitHandler}>
             <div className="form-group">
               <label htmlFor="username">Username</label>
               <ValidationMessage
