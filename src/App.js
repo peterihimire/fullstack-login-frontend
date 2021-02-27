@@ -30,12 +30,17 @@ function App() {
           <Route path="/properties/new">
             <NewProperty />
           </Route>
-          <Route path="/properties/:propertyId" exact>
-            <UpdatePropertiesPage />
-          </Route>
-          <Route path="/properties/description/:slug" exact>
-            <PropertyDescription />
-          </Route>
+          <Route
+            path="/properties/:propertyId"
+            exact
+            component={UpdatePropertiesPage}
+          />
+          <Route
+            path="/properties/description/:slug"
+            exact
+            component={PropertyDescription}
+          />
+
           <Route path="/users">
             <UsersPage />
           </Route>

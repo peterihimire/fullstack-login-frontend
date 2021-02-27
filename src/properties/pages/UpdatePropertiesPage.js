@@ -15,8 +15,8 @@ const DUMMY_PROPERTIES = [
     //   "https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/NYC_Empire_State_Building.jpg/640px-NYC_Empire_State_Building.jpg",
     images: property1,
     location: "phase 2, lekki",
-    completion: "72",
-    amount: "50",
+    completion: "72 million",
+    amount: "50 million",
   },
   {
     id: "p2",
@@ -25,8 +25,9 @@ const DUMMY_PROPERTIES = [
     description:
       " Vasiti is the place where good people, who want to make an honest living should be. Aliqua id fugiat nostrud irure ex duis ea quis id quis ad et. Sunt qu  esse pariatur duis deserunt mollit dolore cillum minim tempor enim. Elit aute irure tempor cupidatat incididunt sint deser unt utvoluptate aute id deserunt nisi. Amet minim mollit non deseruntullamco est sit aliqua dolor do amet sint. Velit officia consequatduis enim velit mollit. Exercitation veniam consequat sunt nostrud amet",
     images: property2,
-    completion: 42,
-    amount: 55,
+    location: "ikota, lekki",
+    completion: "73 percent",
+    amount: "60 million",
   },
 ];
 
@@ -37,38 +38,40 @@ function ValidationMessage(props) {
   return null;
 }
 
-// let propertyId = useParams().propertyId;
-// console.log(propertyId);
-
 class UpdatePropertiesPage extends React.Component {
-  // let propertyId = useParams().propertyId;
-
-  // if (!propertyId) {
-  //   return (
-  //     <div className="center">
-  //       <Card>
-  //         <h2>Property with this id could not be found.</h2>
-  //       </Card>
-  //     </div>
-  //   );
-  // }
-
-  state = {
-    name: "",
-    nameValid: false,
-    slug: "",
-    slugValid: false,
-    location: "",
-    locationValid: false,
-    amount: "",
-    amountValid: false,
-    completion: "",
-    completionValid: false,
-    description: "",
-    descriptionValid: false,
-    formValid: false,
-    errorMsg: {},
+  // gets a single property based on the property id,
+  getSingleProperty = (propertyId) => {
+    const singleP = DUMMY_PROPERTIES.filter((property) => {
+      return property.id === propertyId;
+    });
+    return singleP[0];
   };
+
+  constructor(props) {
+    super(props);
+    // GETTING THE PROPERTY ID VIA PAGE-URL-PARAMS
+    let propertyId = props.match.params.propertyId;
+    // console.log(propertyId);
+    const singleProp = this.getSingleProperty(propertyId);
+    // console.log(singleProp);
+
+    this.state = {
+      name: singleProp.name,
+      nameValid: true,
+      slug: singleProp.slug,
+      slugValid: true,
+      location: singleProp.location,
+      locationValid: true,
+      amount: singleProp.amount,
+      amountValid: true,
+      completion: singleProp.completion,
+      completionValid: true,
+      description: singleProp.description,
+      descriptionValid: true,
+      formValid: true,
+      errorMsg: {},
+    };
+  }
 
   validateForm = () => {
     const {
@@ -95,6 +98,9 @@ class UpdatePropertiesPage extends React.Component {
   };
 
   validateName = () => {
+    console.log(this.getSingleProperty(this.state.propertyId));
+    let onePpty = this.getSingleProperty(this.state.propertyId);
+    console.log(onePpty);
     const { name } = this.state;
     let nameValid = true;
     let errorMsg = { ...this.state.errorMsg };
@@ -199,12 +205,6 @@ class UpdatePropertiesPage extends React.Component {
 
   propertySubmitHandler = (e) => {
     e.preventDefault();
-    console.log("name:" + this.state.name);
-    console.log("slug:" + this.state.slug);
-    console.log("location:" + this.state.location);
-    console.log("amount:" + this.state.amount);
-    console.log("completion:" + this.state.completion);
-    console.log("description:" + this.state.description);
 
     const data = {
       name: this.state.name,
