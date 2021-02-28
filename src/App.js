@@ -14,6 +14,7 @@ import UsersPage from "./user/pages/UsersPage";
 import SingleUser from "./user/pages/SingleUserPage";
 import PropertyDescription from "./properties/pages/PropertyDescriptionPage";
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
+import Auth from "./user/pages/Auth";
 
 function App() {
   return (
@@ -40,13 +41,13 @@ function App() {
             exact
             component={PropertyDescription}
           />
-
           <Route path="/users">
             <UsersPage />
           </Route>
           <Route path="/users/:userId">
             <SingleUser />
           </Route>
+          <Route path="/auth" component={Auth} />
           <Redirect to="/" />
         </Switch>
       </main>
