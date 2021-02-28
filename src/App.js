@@ -14,7 +14,9 @@ import UsersPage from "./user/pages/UsersPage";
 import SingleUser from "./user/pages/SingleUserPage";
 import PropertyDescription from "./properties/pages/PropertyDescriptionPage";
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
-import Auth from "./user/pages/Auth";
+// import Auth from "./user/pages/Auth";
+import LoginPage from "./user/pages/LoginPage";
+import SignupPage from "./user/pages/SignupPage";
 
 function App() {
   return (
@@ -47,7 +49,9 @@ function App() {
           <Route path="/users/:userId">
             <SingleUser />
           </Route>
-          <Route path="/auth" component={Auth} />
+          {/* <Route path="/auth" component={Auth} /> */}
+          <Route path="/login" component={LoginPage} />
+          <Route path="/signup" component={SignupPage} />
           <Redirect to="/" />
         </Switch>
       </main>
