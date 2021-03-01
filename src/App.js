@@ -34,49 +34,46 @@ function App() {
 
   if (isLoggedIn) {
     routes = (
-      <>
-        <Switch>
-          <Route path="/" exact>
-            <HomePage />
-          </Route>
-          <Route path="/properties" exact>
-            <PropertiesPage />
-          </Route>
-          <Route path="/properties/new">
-            <NewProperty />
-          </Route>
-          <Route
-            path="/properties/:propertyId"
-            exact
-            component={UpdatePropertiesPage}
-          />
-          <Route
-            path="/properties/description/:slug"
-            exact
-            component={PropertyDescription}
-          />
-          <Route path="/users">
-            <UsersPage />
-          </Route>
-          <Route path="/users/:userId">
-            <SingleUser />
-          </Route>
-          <Redirect to="/properties" />
-        </Switch>
-      </>
+      <Switch>
+        <Route path="/" exact>
+          <HomePage />
+        </Route>
+        <Route path="/properties" exact>
+          <PropertiesPage />
+        </Route>
+        <Route path="/properties/new">
+          <NewProperty />
+        </Route>
+        <Route
+          path="/properties/:propertyId"
+          exact
+          component={UpdatePropertiesPage}
+        />
+        <Route
+          path="/properties/description/:slug"
+          exact
+          component={PropertyDescription}
+        />
+        <Route path="/users">
+          <UsersPage />
+        </Route>
+        <Route path="/users/:userId">
+          <SingleUser />
+        </Route>
+        {/* <Route></Route> */}
+        <Redirect to="/properties" />
+      </Switch>
     );
   } else {
     routes = (
-      <>
-        <Switch>
-          <Route path="/" exact>
-            <HomePage />
-          </Route>
-          <Route path="/login" component={LoginPage} />
-          <Route path="/signup" component={SignupPage} />
-          <Redirect to="/login" />
-        </Switch>
-      </>
+      <Switch>
+        <Route path="/" exact>
+          <HomePage />
+        </Route>
+        <Route path="/login" component={LoginPage} />
+        <Route path="/signup" component={SignupPage} />
+        <Redirect to="/login" />
+      </Switch>
     );
   }
   return (
