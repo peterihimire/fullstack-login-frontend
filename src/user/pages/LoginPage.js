@@ -1,5 +1,8 @@
 import React from "react";
+import { AuthContext } from "../../shared/context/auth-context";
 // import "./Auth.css";
+
+const AuthConsumer = AuthContext.Consumer;
 
 function ValidationMessage(props) {
   if (!props.valid) {
@@ -8,7 +11,12 @@ function ValidationMessage(props) {
   return null;
 }
 
+console.log(AuthContext.Consumer);
 class LoginPage extends React.Component {
+  static contextType = AuthContext;
+
+  context = this.context;
+
   state = {
     username: "",
     usernameValid: false,
@@ -113,8 +121,17 @@ class LoginPage extends React.Component {
   //   this.setState({ passwordConfirmValid, errorMsg }, this.validateForm);
   // };
 
+  componentDidMount() {
+    const context = this.context;
+    console.log(context);
+
+    console.log(context.login);
+  }
+
   submitHandler = (e) => {
     e.preventDefault();
+    console.log(this.context);
+    this.context.login();
     console.log("Username:" + this.state.username);
     console.log("Email:" + this.state.email);
     console.log("Password:" + this.state.password);
@@ -129,6 +146,11 @@ class LoginPage extends React.Component {
 
   render() {
     return (
+      // <AuthConsumer>
+      //   {(value) => {
+      //     console.log(value);
+      //     const { isLoggedIn, login, logout } = value;
+      //     console.log(isLoggedIn, login, logout);
       <div className="App">
         <header>Login </header>
         <main role="main">
@@ -207,6 +229,8 @@ class LoginPage extends React.Component {
           </form>
         </main>
       </div>
+      //   }}
+      // </AuthConsumer>
     );
   }
 }
