@@ -5,12 +5,12 @@
 - [General info](#general-info)
 - [Technologies](#technologies)
 - [Setup](#setup)
-- [Sources](#sources)
+<!-- - [Sources](#sources) -->
 - [Demo](#demo)
 
 ## General info
 
-This project is a webapp where users can share their experiences on a shopping platform either as a customer or vendor.
+This is the frontend of a fullstack application. Where admin has the sole power of creating properties, while guest users can view properties , but only authenticated users can book properties'
 
 ## Technologies
 
@@ -26,14 +26,16 @@ Project is created with:
 To run this project, install it locally using npm:
 
 ```
-$ cd ../lorem
+$ git clone github.com/peterihimire/fullstack-login-frontend.git
+$ cd fullstack-login-frontend
 $ npm install
 $ npm start
+Finally visit (http://localhost:3000) on your favourite browser
 ```
 
-## Sources
+<!-- ## Sources
 
-This app is inspired by vasiti webapp project. [@vasiti](https://www.vasiti.com)
+This app is inspired by vasiti webapp project. [@vasiti](https://www.vasiti.com) -->
 
 ## Demo
 
