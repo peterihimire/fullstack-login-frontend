@@ -2,8 +2,6 @@ import React from "react";
 import { AuthContext } from "../../shared/context/auth-context";
 // import "./Auth.css";
 
-const AuthConsumer = AuthContext.Consumer;
-
 function ValidationMessage(props) {
   if (!props.valid) {
     return <div className="error-msg">{props.message}</div>;
@@ -11,52 +9,26 @@ function ValidationMessage(props) {
   return null;
 }
 
-console.log(AuthContext.Consumer);
 class LoginPage extends React.Component {
   static contextType = AuthContext;
 
   context = this.context;
 
   state = {
-    username: "",
-    usernameValid: false,
     email: "",
     emailValid: false,
     password: "",
     passwordValid: false,
-    passwordConfirm: "",
-    passwordConfirmValid: false,
+
     formValid: false,
     errorMsg: {},
   };
 
   validateForm = () => {
-    const {
-      usernameValid,
-      emailValid,
-      passwordValid,
-      passwordConfirmValid,
-    } = this.state;
+    const { emailValid, passwordValid } = this.state;
     this.setState({
       formValid: emailValid && passwordValid,
     });
-  };
-
-  updateUsername = (username) => {
-    this.setState({ username }, this.validateUsername);
-  };
-
-  validateUsername = () => {
-    const { username } = this.state;
-    let usernameValid = true;
-    let errorMsg = { ...this.state.errorMsg };
-
-    if (username.length < 3) {
-      usernameValid = false;
-      errorMsg.username = "Must be at least 3 characters long";
-    }
-
-    this.setState({ usernameValid, errorMsg }, this.validateForm);
   };
 
   updateEmail = (email) => {
@@ -104,23 +76,6 @@ class LoginPage extends React.Component {
     this.setState({ passwordValid, errorMsg }, this.validateForm);
   };
 
-  updatePasswordConfirm = (passwordConfirm) => {
-    this.setState({ passwordConfirm }, this.validatePasswordConfirm);
-  };
-
-  // validatePasswordConfirm = () => {
-  //   const { passwordConfirm, password } = this.state;
-  //   let passwordConfirmValid = true;
-  //   let errorMsg = { ...this.state.errorMsg };
-
-  //   if (password !== passwordConfirm) {
-  //     passwordConfirmValid = false;
-  //     errorMsg.passwordConfirm = "Passwords do not match";
-  //   }
-
-  //   this.setState({ passwordConfirmValid, errorMsg }, this.validateForm);
-  // };
-
   componentDidMount() {
     const context = this.context;
     console.log(context);
@@ -132,12 +87,11 @@ class LoginPage extends React.Component {
     e.preventDefault();
     console.log(this.context);
     this.context.login();
-    console.log("Username:" + this.state.username);
+
     console.log("Email:" + this.state.email);
     console.log("Password:" + this.state.password);
 
     const data = {
-      // username: this.state.username,
       email: this.state.email,
       password: this.state.password,
     };
@@ -146,30 +100,10 @@ class LoginPage extends React.Component {
 
   render() {
     return (
-      // <AuthConsumer>
-      //   {(value) => {
-      //     console.log(value);
-      //     const { isLoggedIn, login, logout } = value;
-      //     console.log(isLoggedIn, login, logout);
       <div className="App">
         <header>Login </header>
         <main role="main">
           <form action="#" id="js-form" onSubmit={this.submitHandler}>
-            {/* <div className="form-group">
-              <label htmlFor="username">Username</label>
-              <ValidationMessage
-                valid={this.state.usernameValid}
-                message={this.state.errorMsg.username}
-              />
-              <input
-                type="text"
-                id="username"
-                name="username"
-                className="form-field"
-                value={this.state.username}
-                onChange={(e) => this.updateUsername(e.target.value)}
-              />
-            </div> */}
             <div className="form-group">
               <label htmlFor="email">Email</label>
               <ValidationMessage
@@ -200,23 +134,7 @@ class LoginPage extends React.Component {
                 onChange={(e) => this.updatePassword(e.target.value)}
               />
             </div>
-            {/* <div className="form-group">
-              <label htmlFor="password-confirmation">
-                Password Confirmation
-              </label>
-              <ValidationMessage
-                valid={this.state.passwordConfirmValid}
-                message={this.state.errorMsg.passwordConfirm}
-              />
-              <input
-                type="password"
-                id="password-confirmation"
-                name="password-confirmation"
-                className="form-field"
-                value={this.state.passwordConfirm}
-                onChange={(e) => this.updatePasswordConfirm(e.target.value)}
-              />
-            </div> */}
+
             <div className="form-controls">
               <button
                 className="button"
@@ -229,8 +147,6 @@ class LoginPage extends React.Component {
           </form>
         </main>
       </div>
-      //   }}
-      // </AuthConsumer>
     );
   }
 }
