@@ -10,8 +10,8 @@ function ValidationMessage(props) {
 
 class SignupPage extends React.Component {
   state = {
-    username: "",
-    usernameValid: false,
+    name: "",
+    nameValid: false,
     email: "",
     emailValid: false,
     password: "",
@@ -24,14 +24,14 @@ class SignupPage extends React.Component {
 
   validateForm = () => {
     const {
-      usernameValid,
+      nameValid,
       emailValid,
       passwordValid,
       passwordConfirmValid,
     } = this.state;
     this.setState({
       formValid:
-        usernameValid && emailValid && passwordValid && passwordConfirmValid,
+        nameValid && emailValid && passwordValid && passwordConfirmValid,
       // console.log(
       //   usernameValid,
       //   emailValid,
@@ -41,21 +41,21 @@ class SignupPage extends React.Component {
     });
   };
 
-  updateUsername = (username) => {
-    this.setState({ username }, this.validateUsername);
+  updateName = (name) => {
+    this.setState({ name }, this.validateName);
   };
 
-  validateUsername = () => {
-    const { username } = this.state;
-    let usernameValid = true;
+  validateName = () => {
+    const { name } = this.state;
+    let nameValid = true;
     let errorMsg = { ...this.state.errorMsg };
 
-    if (username.length < 3) {
-      usernameValid = false;
-      errorMsg.username = "Must be at least 3 characters long";
+    if (name.length < 3) {
+      nameValid = false;
+      errorMsg.name = "Must be at least 3 characters long";
     }
 
-    this.setState({ usernameValid, errorMsg }, this.validateForm);
+    this.setState({ nameValid, errorMsg }, this.validateForm);
   };
 
   updateEmail = (email) => {
@@ -122,12 +122,27 @@ class SignupPage extends React.Component {
 
   submitHandler = (e) => {
     e.preventDefault();
-    console.log("Username:" + this.state.username);
+    console.log("Username:" + this.state.name);
     console.log("Email:" + this.state.email);
     console.log("Password:" + this.state.password);
+    fetch("http://localhost:7000/api/users/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: this.state.name,
+        email: this.state.email,
+        password: this.state.password,
+      }),
+    })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((err) => console.log(err));
 
     const data = {
-      username: this.state.username,
+      name: this.state.name,
       email: this.state.email,
       password: this.state.password,
     };
@@ -141,18 +156,18 @@ class SignupPage extends React.Component {
         <main role="main">
           <form action="#" id="js-form" onSubmit={this.submitHandler}>
             <div className="form-group">
-              <label htmlFor="username">Username</label>
+              <label htmlFor="name">Name</label>
               <ValidationMessage
-                valid={this.state.usernameValid}
-                message={this.state.errorMsg.username}
+                valid={this.state.nameValid}
+                message={this.state.errorMsg.name}
               />
               <input
                 type="text"
-                id="username"
-                name="username"
+                id="name"
+                name="name"
                 className="form-field"
-                value={this.state.username}
-                onChange={(e) => this.updateUsername(e.target.value)}
+                value={this.state.name}
+                onChange={(e) => this.updateName(e.target.value)}
               />
             </div>
             <div className="form-group">
