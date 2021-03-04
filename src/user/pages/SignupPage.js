@@ -95,10 +95,11 @@ class SignupPage extends React.Component {
     } else if (!/\d/.test(password)) {
       passwordValid = false;
       errorMsg.password = "Password must contain a digit";
-    } else if (!/[!@#$%^&*]/.test(password)) {
-      passwordValid = false;
-      errorMsg.password = "Password must contain special character: !@#$%^&*";
     }
+    // else if (!/[!@#$%^&*]/.test(password)) {
+    //   passwordValid = false;
+    //   errorMsg.password = "Password must contain special character: !@#$%^&*";
+    // }
 
     this.setState({ passwordValid, errorMsg }, this.validateForm);
   };
@@ -122,9 +123,7 @@ class SignupPage extends React.Component {
 
   submitHandler = (e) => {
     e.preventDefault();
-    console.log("Username:" + this.state.name);
-    console.log("Email:" + this.state.email);
-    console.log("Password:" + this.state.password);
+
     fetch("http://localhost:7000/api/users/signup", {
       method: "POST",
       headers: {
@@ -137,16 +136,15 @@ class SignupPage extends React.Component {
       }),
     })
       .then((response) => {
+        if (!response.ok) {
+          throw new Error("Error signing up!");
+        }
         console.log(response);
+        return response;
       })
+      .then((response) => response.json())
+      .then((resData) => console.log(resData))
       .catch((err) => console.log(err));
-
-    const data = {
-      name: this.state.name,
-      email: this.state.email,
-      password: this.state.password,
-    };
-    console.log(data);
   };
 
   render() {
@@ -234,3 +232,33 @@ class SignupPage extends React.Component {
 }
 
 export default SignupPage;
+
+// submitHandler = (e) => {
+//   e.preventDefault();
+//   console.log("Username:" + this.state.name);
+//   console.log("Email:" + this.state.email);
+//   console.log("Password:" + this.state.password);
+
+//   fetch("http://localhost:7000/api/users/signup", {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify({
+//       name: this.state.name,
+//       email: this.state.email,
+//       password: this.state.password,
+//     }),
+//   })
+//     .then((response) => {
+//       console.log(response);
+//     })
+//     .catch((err) => console.log(err));
+
+//   const data = {
+//     name: this.state.name,
+//     email: this.state.email,
+//     password: this.state.password,
+//   };
+//   console.log(data);
+// };
