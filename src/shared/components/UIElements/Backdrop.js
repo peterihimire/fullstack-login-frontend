@@ -1,12 +1,13 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
+import ReactDOM from "react-dom";
 
-import './Backdrop.css';
+import "./Backdrop.css";
 
-const Backdrop = props => {
+// THIS IS THE DARK BACKGROUND TO CLICK TO CLOSE THE SIDE-DRAWER
+const Backdrop = (props) => {
   return ReactDOM.createPortal(
     <div className="backdrop" onClick={props.onClick}></div>,
-    document.getElementById('backdrop-hook')
+    document.getElementById("backdrop-hook")
   );
 };
 
