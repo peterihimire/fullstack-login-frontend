@@ -1,6 +1,8 @@
 import React from "react";
 import { AuthContext } from "../../shared/context/auth-context";
 // import "./Auth.css";
+import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
+import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 
 function ValidationMessage(props) {
   if (!props.valid) {
@@ -19,9 +21,10 @@ class LoginPage extends React.Component {
     emailValid: false,
     password: "",
     passwordValid: false,
-
     formValid: false,
     errorMsg: {},
+    loading: false,
+    error: null,
   };
 
   validateForm = () => {
@@ -68,10 +71,11 @@ class LoginPage extends React.Component {
     } else if (!/\d/.test(password)) {
       passwordValid = false;
       errorMsg.password = "Password must contain a digit";
-    } else if (!/[!@#$%^&*]/.test(password)) {
-      passwordValid = false;
-      errorMsg.password = "Password must contain special character: !@#$%^&*";
     }
+    // else if (!/[!@#$%^&*]/.test(password)) {
+    //   passwordValid = false;
+    //   errorMsg.password = "Password must contain special character: !@#$%^&*";
+    // }
 
     this.setState({ passwordValid, errorMsg }, this.validateForm);
   };
@@ -86,21 +90,51 @@ class LoginPage extends React.Component {
   submitHandler = (e) => {
     e.preventDefault();
     console.log(this.context);
-    this.context.login();
+    // console.log("Email:" + this.state.email);
+    // console.log("Password:" + this.state.password);
 
-    console.log("Email:" + this.state.email);
-    console.log("Password:" + this.state.password);
-
-    const data = {
-      email: this.state.email,
-      password: this.state.password,
-    };
-    console.log(data);
+    // const data = {
+    //   email: this.state.email,
+    //   password: this.state.password,
+    // };
+    // console.log(data);
+    this.setState({ loading: true });
+    fetch("http://localhost:7000/api/users/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: this.state.email,
+        password: this.state.password,
+      }),
+    })
+      .then((response) => {
+        response
+          .json()
+          .then((res) => {
+            console.log(res);
+            if (!response.ok) {
+              throw new Error(res.msg);
+            }
+            this.setState({ loading: false });
+            console.log(response);
+            this.context.login();
+          })
+          .catch((err) => console.log(err));
+      })
+      .catch((err) => {
+        console.log(err);
+        this.setState({
+          error: err.message || "Something went wrong , please try again...",
+        });
+      });
   };
 
   render() {
     return (
       <div className="App">
+        {this.state.loading && <LoadingSpinner asOverlay />}
         <header>Login </header>
         <main role="main">
           <form action="#" id="js-form" onSubmit={this.submitHandler}>
