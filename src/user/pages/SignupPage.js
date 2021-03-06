@@ -125,7 +125,8 @@ class SignupPage extends React.Component {
     this.setState({ passwordConfirmValid, errorMsg }, this.validateForm);
   };
 
-  errorHandler = () => {
+  // TO REMOVE ERROR MODAL
+  errorModalHandler = () => {
     this.setState({ error: null });
   };
 
@@ -143,35 +144,35 @@ class SignupPage extends React.Component {
         email: this.state.email,
         password: this.state.password,
       }),
-    })
-      .then((response) => {
-        response
-          .json()
-          .then((res) => {
-            console.log(res);
-            if (!response.ok) {
-              throw new Error(res.msg);
-            }
-            this.setState({ loading: false });
-            console.log(response);
-            // this.context.login();
-          })
-          .catch((err) => {
-            console.log(err);
-            this.setState({ loading: false });
-            this.setState({
-              error:
-                err.message || "Something went wrong , please try again...",
-            });
+    }).then((response) => {
+      response
+        .json()
+        .then((res) => {
+          console.log(res);
+          if (!response.ok) {
+            throw new Error(res.msg);
+          }
+          this.setState({ loading: false });
+          console.log(response);
+          console.log(this.props);
+          this.props.history.push("/login"); //Directs to login page , after successful signup
+        })
+        .catch((err) => {
+          console.log(err);
+          this.setState({ loading: false });
+          this.setState({
+            error: err.message || "Something went wrong , please try again...",
           });
-      })
-      // .catch((err) => {
-      //   console.log(err);
-      //   this.setState({ loading: false });
-      //   this.setState({
-      //     error: err.message || "Something went wrong , please try again...",
-      //   });
-      // });
+          this.setState({ loading: false });
+        });
+    });
+    // .catch((err) => {
+    //   console.log(err);
+    //   this.setState({ loading: false });
+    //   this.setState({
+    //     error: err.message || "Something went wrong , please try again...",
+    //   });
+    // });
 
     // fetch("http://localhost:7000/api/users/signup", {
     //   method: "POST",
@@ -199,7 +200,7 @@ class SignupPage extends React.Component {
   render() {
     return (
       <>
-        <ErrorModal error={this.state.error} onClear={this.errorHandler} />
+        <ErrorModal error={this.state.error} onClear={this.errorModalHandler} />
         <div className="App">
           {this.state.loading && <LoadingSpinner asOverlay />}
           <header>Form Validation</header>
