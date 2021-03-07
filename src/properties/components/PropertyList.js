@@ -4,11 +4,14 @@ import PropertyItem from "./PropertyItem";
 import Card from "../../shared/components/UIElements/Card";
 
 const PropertyList = (props) => {
+  console.log(props);
   if (props.items.length === 0) {
     return (
       <div className="place-list-center">
         <Card>
-          <h2>No Property found</h2>
+          <div className="center">
+            <h2>No Property found</h2>
+          </div>
         </Card>
       </div>
     );
