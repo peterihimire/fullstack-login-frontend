@@ -52,15 +52,17 @@ class UpdatePropertiesPage extends React.Component {
         return response;
       })
       .then((response) => {
-        console.log(response.property);
-        console.log(response.property.name);
+        // console.log(response.property);
+        // console.log(response.property.name);
         this.setState({
           singlePro: response.property,
           name: response.property.name,
+          slug: response.property.slug,
           location: response.property.location,
           amount: response.property.amount,
           completion: response.property.completion,
           description: response.property.description,
+          images: response.property.images,
         });
         return response.property;
       })
@@ -79,6 +81,7 @@ class UpdatePropertiesPage extends React.Component {
       amountValid,
       completionValid,
       descriptionValid,
+      imagesValid,
     } = this.state;
     this.setState({
       formValid:
@@ -87,7 +90,8 @@ class UpdatePropertiesPage extends React.Component {
         locationValid &&
         amountValid &&
         completionValid &&
-        descriptionValid,
+        descriptionValid &&
+        imagesValid,
     });
   };
   // VALIDITY FOR NAME
@@ -201,8 +205,28 @@ class UpdatePropertiesPage extends React.Component {
     this.setState({ descriptionValid, errorMsg }, this.validateForm);
   };
 
+  // VALIDITY FOR IMAGES
+  updateImages = (images) => {
+    this.setState({ images }, this.validateImages);
+  };
+
+  validateImages = () => {
+    const { images } = this.state;
+    let imagesValid = true;
+    let errorMsg = { ...this.state.errorMsg };
+
+    if (images.length < 3) {
+      imagesValid = false;
+      errorMsg.images = "Must be at least 3 characters long";
+    }
+
+    this.setState({ imagesValid, errorMsg }, this.validateForm);
+  };
+
   propertySubmitHandler = (e) => {
     e.preventDefault();
+    // GETTING THE PROPERTY ID VIA PAGE-URL-PARAMS
+    let propertyId = this.props.match.params.propertyId;
 
     const data = {
       name: this.state.name,
@@ -211,7 +235,51 @@ class UpdatePropertiesPage extends React.Component {
       amount: this.state.amount,
       completion: this.state.completion,
       description: this.state.description,
+      images: this.state.images,
     }; // Sending this to the backend
+
+    fetch(`http://localhost:7000/api/admin/properties/${propertyId}`, {
+      method: "PuT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: this.state.name,
+        slug: this.state.slug,
+        location: this.state.location,
+        amount: this.state.amount,
+        completion: this.state.completion,
+        description: this.state.description,
+        images: this.state.images,
+      }),
+    })
+      .then((response) => {
+        response
+          .json()
+          .then((res) => {
+            console.log(res);
+            if (!response.ok) {
+              throw new Error(res.msg);
+            }
+            // this.setState({ loading: false });
+            console.log(response);
+            this.props.history.push("/properties");
+          })
+          .catch((err) => {
+            console.log(err);
+            this.setState({
+              error:
+                err.message || "Something went wrong , please try again...",
+            });
+            // this.setState({ loading: false });
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+        this.setState({
+          error: err.message || "Something went wrong , please try again...",
+        });
+      });
     console.log(data);
   };
 
@@ -325,6 +393,22 @@ class UpdatePropertiesPage extends React.Component {
                 value={this.state.description}
                 onChange={(e) => this.updateDescription(e.target.value)}
               ></textarea>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="images">images</label>
+              <ValidationMessage
+                valid={this.state.imagesValid}
+                message={this.state.errorMsg.images}
+              />
+              <input
+                type="text"
+                id="images"
+                name="images"
+                className="form-field"
+                value={this.state.images}
+                onChange={(e) => this.updateImages(e.target.value)}
+              />
             </div>
 
             <div className="form-controls">
