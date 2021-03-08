@@ -41,36 +41,75 @@ class UpdatePropertiesPage extends React.Component {
   getSingleProperty = (propertyId) => {
     fetch(`http://localhost:7000/api/properties/${propertyId} `)
       .then((response) => {
-        console.log(response);
-        return response.json();
-      })
-      .then((response) => {
-        // setIsLoading(false);
-        console.log(response);
-        // const loadedProperties = response.properties;
-        // console.log(loadedProperties);
-        return response;
-      })
-      .then((response) => {
-        // console.log(response.property);
-        // console.log(response.property.name);
-        this.setState({
-          singlePro: response.property,
-          name: response.property.name,
-          slug: response.property.slug,
-          location: response.property.location,
-          amount: response.property.amount,
-          completion: response.property.completion,
-          description: response.property.description,
-          images: response.property.images,
-        });
-        return response.property;
+        response
+          .json()
+          .then((res) => {
+            console.log(res);
+
+            this.setState({
+              // singlePro: response.property,
+              name: res.property.name,
+              slug: res.property.slug,
+              location: res.property.location,
+              amount: res.property.amount,
+              completion: res.property.completion,
+              description: res.property.description,
+              images: res.property.images,
+            });
+
+            if (!response.ok) {
+              throw new Error(res.msg);
+            }
+            // this.setState({ loading: false });
+            console.log(response);
+            // this.props.history.push("/properties");
+          })
+          .catch((err) => {
+            console.log(err);
+            this.setState({
+              error:
+                err.message || "Something went wrong , please try again...",
+            });
+            // this.setState({ loading: false });
+          });
       })
       .catch((err) => {
         console.log(err);
-        // setIsLoading(false);
-        // setError(err.msg || "Something went wrong!");
+        this.setState({
+          error: err.message || "Something went wrong , please try again...",
+        });
       });
+    // .then((response) => {
+    //   console.log(response);
+    //   return response.json();
+    // })
+    // .then((response) => {
+    //   // setIsLoading(false);
+    //   console.log(response);
+    //   // const loadedProperties = response.properties;
+    //   // console.log(loadedProperties);
+    //   return response;
+    // })
+    // .then((response) => {
+    //   // console.log(response.property);
+    //   // console.log(response.property.name);
+    //   this.setState({
+    //     // singlePro: response.property,
+    //     name: response.property.name,
+    //     slug: response.property.slug,
+    //     location: response.property.location,
+    //     amount: response.property.amount,
+    //     completion: response.property.completion,
+    //     description: response.property.description,
+    //     images: response.property.images,
+    //   });
+    //   // return response.property;
+    // })
+    // .catch((err) => {
+    //   console.log(err);
+    //   // setIsLoading(false);
+    //   // setError(err.msg || "Something went wrong!");
+    // });
   };
 
   validateForm = () => {
