@@ -32,65 +32,68 @@ class UpdatePropertiesPage extends React.Component {
       completionValid: true,
       description: "",
       descriptionValid: true,
+      images: "",
+      imagesValid: true,
       formValid: true,
       errorMsg: {},
     };
   }
 
   // gets a single property based on the property id,
-  getProperty = (propertyId) => {
-    fetch(`http://localhost:7000/api/properties/${propertyId} `)
-      .then((response) => {
-        response
-          .json()
-          .then((res) => {
-            console.log(res);
-
-            if (!response.ok) {
-              throw new Error(res.msg);
-            }
-            // this.setState({ loading: false });
-            console.log(response);
-            this.setState({
-              property: res.property,
-              //   // singlePro: response.property,
-              //   name: res.property.name,
-              //   slug: res.property.slug,
-              //   location: res.property.location,
-              //   amount: res.property.amount,
-              //   completion: res.property.completion,
-              //   description: res.property.description,
-              //   images: res.property.images,
-            });
-            let property = res.property;
-            console.log(property);
-            // return property;
-            // this.props.history.push("/properties");
-          })
-          // .then((response) => {
-          //   console.log(response);
-          // })
-          .catch((err) => {
-            console.log(err);
-            this.setState({
-              error:
-                err.message || "Something went wrong , please try again...",
-            });
-            // this.setState({ loading: false });
-          });
-      })
-      .catch((err) => {
-        console.log(err);
-        this.setState({
-          error: err.message || "Something went wrong , please try again...",
-        });
-      });
-  };
+  // getProperty = (propertyId) => {};
 
   componentDidMount() {
     // GETTING THE PROPERTY ID VIA PAGE-URL-PARAMS
     let propertyId = this.props.match.params.propertyId;
-    this.getProperty(propertyId);
+    const fetchProperty = () => {
+      fetch(`http://localhost:7000/api/properties/${propertyId} `)
+        .then((response) => {
+          response
+            .json()
+            .then((res) => {
+              console.log(res);
+
+              if (!response.ok) {
+                throw new Error(res.msg);
+              }
+              // this.setState({ loading: false });
+              console.log(response);
+              this.setState({
+                property: res.property,
+                //   // singlePro: response.property,
+                name: res.property.name || "",
+                slug: res.property.slug || "",
+                location: res.property.location || "",
+                amount: res.property.amount || "",
+                completion: res.property.completion || "",
+                description: res.property.description || "",
+                images: res.property.images || "",
+              });
+              let property = res.property;
+              console.log(property);
+              // return property;
+              // this.props.history.push("/properties");
+            })
+            // .then((response) => {
+            //   console.log(response);
+            // })
+            .catch((err) => {
+              console.log(err);
+              this.setState({
+                error:
+                  err.message || "Something went wrong , please try again...",
+              });
+              // this.setState({ loading: false });
+            });
+        })
+        .catch((err) => {
+          console.log(err);
+          this.setState({
+            error: err.message || "Something went wrong , please try again...",
+          });
+        });
+    };
+    fetchProperty();
   }
 
   validateForm = () => {
@@ -114,6 +117,7 @@ class UpdatePropertiesPage extends React.Component {
         imagesValid,
     });
   };
+
   // VALIDITY FOR NAME
   updateName = (name) => {
     this.setState({ name }, this.validateName);
@@ -121,7 +125,8 @@ class UpdatePropertiesPage extends React.Component {
 
   validateName = () => {
     console.log(this.state);
-    const { name } = this.state;
+    const { name } = this.state.property;
+    console.log(name);
     let nameValid = true;
     let errorMsg = { ...this.state.errorMsg };
 
@@ -139,7 +144,7 @@ class UpdatePropertiesPage extends React.Component {
   };
 
   validateSlug = () => {
-    const { slug } = this.state;
+    const { slug } = this.state.property;
     let slugValid = true;
     let errorMsg = { ...this.state.errorMsg };
 
@@ -157,7 +162,7 @@ class UpdatePropertiesPage extends React.Component {
   };
 
   validateLocation = () => {
-    const { location } = this.state;
+    const { location } = this.state.property;
     let locationValid = true;
     let errorMsg = { ...this.state.errorMsg };
 
@@ -175,7 +180,7 @@ class UpdatePropertiesPage extends React.Component {
   };
 
   validateAmount = () => {
-    const { amount } = this.state;
+    const { amount } = this.state.property;
     let amountValid = true;
     let errorMsg = { ...this.state.errorMsg };
 
@@ -211,7 +216,7 @@ class UpdatePropertiesPage extends React.Component {
   };
 
   validateDescription = () => {
-    const { description } = this.state;
+    const { description } = this.state.property;
     let descriptionValid = true;
     let errorMsg = { ...this.state.errorMsg };
 
@@ -229,7 +234,7 @@ class UpdatePropertiesPage extends React.Component {
   };
 
   validateImages = () => {
-    const { images } = this.state;
+    const { images } = this.state.property;
     let imagesValid = true;
     let errorMsg = { ...this.state.errorMsg };
 
@@ -320,7 +325,7 @@ class UpdatePropertiesPage extends React.Component {
                 id="name"
                 name="name"
                 className="form-field"
-                value={this.state.property.name || ""}
+                value={this.state.name || ""}
                 onChange={(e) => this.updateName(e.target.value)}
               />
             </div>
@@ -336,7 +341,7 @@ class UpdatePropertiesPage extends React.Component {
                 id="slug"
                 name="slug"
                 className="form-field"
-                value={this.state.property.slug || ""}
+                value={this.state.slug || ""}
                 onChange={(e) => this.updateSlug(e.target.value)}
               />
             </div>
@@ -352,7 +357,7 @@ class UpdatePropertiesPage extends React.Component {
                 id="location"
                 name="location"
                 className="form-field"
-                value={this.state.property.location || ""}
+                value={this.state.location || ""}
                 onChange={(e) => this.updateLocation(e.target.value)}
               />
             </div>
@@ -368,7 +373,7 @@ class UpdatePropertiesPage extends React.Component {
                 id="amount"
                 name="amount"
                 className="form-field"
-                value={this.state.property.amount || ""}
+                value={this.state.amount || ""}
                 onChange={(e) => this.updateAmount(e.target.value)}
               />
             </div>
@@ -384,7 +389,7 @@ class UpdatePropertiesPage extends React.Component {
                 id="completion"
                 name="completion"
                 className="form-field"
-                value={this.state.property.completion || ""}
+                value={this.state.completion || ""}
                 onChange={(e) => this.updateCompletion(e.target.value)}
               />
             </div>
@@ -401,7 +406,7 @@ class UpdatePropertiesPage extends React.Component {
                 name="description"
                 rows="8"
                 className="form-field-2"
-                value={this.state.property.description || ""}
+                value={this.state.description || ""}
                 onChange={(e) => this.updateDescription(e.target.value)}
               ></textarea>
             </div>
@@ -409,7 +414,7 @@ class UpdatePropertiesPage extends React.Component {
             <div className="form-group">
               <label htmlFor="images">images</label>
               <ValidationMessage
-                valid={this.state.property.imagesValid}
+                valid={this.state.imagesValid}
                 message={this.state.errorMsg.images}
               />
               <input
@@ -417,7 +422,7 @@ class UpdatePropertiesPage extends React.Component {
                 id="images"
                 name="images"
                 className="form-field"
-                value={this.state.property.images || ""}
+                value={this.state.images || ""}
                 onChange={(e) => this.updateImages(e.target.value)}
               />
             </div>
