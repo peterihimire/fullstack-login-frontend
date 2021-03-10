@@ -14,23 +14,23 @@ class UpdatePropertiesPage extends React.Component {
     // GETTING THE PROPERTY ID VIA PAGE-URL-PARAMS
     let propertyId = props.match.params.propertyId;
     console.log(propertyId);
-    console.log(this.getProperty(propertyId));
-    const singleProp = this.getProperty(propertyId);
-    console.log(singleProp);
+    // console.log(this.getProperty(propertyId));
+    // const singleProp = this.getProperty(propertyId);
+    // console.log(singleProp);
 
     this.state = {
-      // propertyId: propertyId,
-      name: this.getProperty(propertyId) || "",
+      property: {},
+      name: "",
       nameValid: true,
-      slug: this.getProperty(propertyId) || "",
+      slug: "",
       slugValid: true,
-      location: this.getProperty(propertyId) || "",
+      location: "",
       locationValid: true,
-      amount: this.getProperty(propertyId) || "",
+      amount: "",
       amountValid: true,
-      completion: this.getProperty(propertyId) || "",
+      completion: "",
       completionValid: true,
-      description: this.getProperty(propertyId) || "",
+      description: "",
       descriptionValid: true,
       formValid: true,
       errorMsg: {},
@@ -51,16 +51,17 @@ class UpdatePropertiesPage extends React.Component {
             }
             // this.setState({ loading: false });
             console.log(response);
-            // this.setState({
-            //   // singlePro: response.property,
-            //   name: res.property.name,
-            //   slug: res.property.slug,
-            //   location: res.property.location,
-            //   amount: res.property.amount,
-            //   completion: res.property.completion,
-            //   description: res.property.description,
-            //   images: res.property.images,
-            // });
+            this.setState({
+              property: res.property,
+              //   // singlePro: response.property,
+              //   name: res.property.name,
+              //   slug: res.property.slug,
+              //   location: res.property.location,
+              //   amount: res.property.amount,
+              //   completion: res.property.completion,
+              //   description: res.property.description,
+              //   images: res.property.images,
+            });
             let property = res.property;
             console.log(property);
             // return property;
@@ -84,39 +85,6 @@ class UpdatePropertiesPage extends React.Component {
           error: err.message || "Something went wrong , please try again...",
         });
       });
-
-    // console.log(this.getSingleProperty())
-    // .then((response) => {
-    //   console.log(response);
-    //   return response.json();
-    // })
-    // .then((response) => {
-    //   // setIsLoading(false);
-    //   console.log(response);
-    //   // const loadedProperties = response.properties;
-    //   // console.log(loadedProperties);
-    //   return response;
-    // })
-    // .then((response) => {
-    //   // console.log(response.property);
-    //   // console.log(response.property.name);
-    //   this.setState({
-    //     // singlePro: response.property,
-    //     name: response.property.name,
-    //     slug: response.property.slug,
-    //     location: response.property.location,
-    //     amount: response.property.amount,
-    //     completion: response.property.completion,
-    //     description: response.property.description,
-    //     images: response.property.images,
-    //   });
-    //   // return response.property;
-    // })
-    // .catch((err) => {
-    //   console.log(err);
-    //   // setIsLoading(false);
-    //   // setError(err.msg || "Something went wrong!");
-    // });
   };
 
   componentDidMount() {
@@ -152,9 +120,7 @@ class UpdatePropertiesPage extends React.Component {
   };
 
   validateName = () => {
-    // console.log(this.getProperty(this.state.propertyId));
-    // let onePpty = this.getProperty(this.state.propertyId);
-    // console.log(onePpty);
+    console.log(this.state);
     const { name } = this.state;
     let nameValid = true;
     let errorMsg = { ...this.state.errorMsg };
@@ -336,6 +302,7 @@ class UpdatePropertiesPage extends React.Component {
   };
 
   render() {
+    console.log(this.state);
     return (
       <div>
         <div className="App">
@@ -353,7 +320,7 @@ class UpdatePropertiesPage extends React.Component {
                 id="name"
                 name="name"
                 className="form-field"
-                value={this.state.name || ""}
+                value={this.state.property.name || ""}
                 onChange={(e) => this.updateName(e.target.value)}
               />
             </div>
@@ -369,7 +336,7 @@ class UpdatePropertiesPage extends React.Component {
                 id="slug"
                 name="slug"
                 className="form-field"
-                value={this.state.slug || ""}
+                value={this.state.property.slug || ""}
                 onChange={(e) => this.updateSlug(e.target.value)}
               />
             </div>
@@ -385,7 +352,7 @@ class UpdatePropertiesPage extends React.Component {
                 id="location"
                 name="location"
                 className="form-field"
-                value={this.state.location || ""}
+                value={this.state.property.location || ""}
                 onChange={(e) => this.updateLocation(e.target.value)}
               />
             </div>
@@ -401,7 +368,7 @@ class UpdatePropertiesPage extends React.Component {
                 id="amount"
                 name="amount"
                 className="form-field"
-                value={this.state.amount || ""}
+                value={this.state.property.amount || ""}
                 onChange={(e) => this.updateAmount(e.target.value)}
               />
             </div>
@@ -417,7 +384,7 @@ class UpdatePropertiesPage extends React.Component {
                 id="completion"
                 name="completion"
                 className="form-field"
-                value={this.state.completion || ""}
+                value={this.state.property.completion || ""}
                 onChange={(e) => this.updateCompletion(e.target.value)}
               />
             </div>
@@ -434,7 +401,7 @@ class UpdatePropertiesPage extends React.Component {
                 name="description"
                 rows="8"
                 className="form-field-2"
-                value={this.state.description || ""}
+                value={this.state.property.description || ""}
                 onChange={(e) => this.updateDescription(e.target.value)}
               ></textarea>
             </div>
@@ -442,7 +409,7 @@ class UpdatePropertiesPage extends React.Component {
             <div className="form-group">
               <label htmlFor="images">images</label>
               <ValidationMessage
-                valid={this.state.imagesValid}
+                valid={this.state.property.imagesValid}
                 message={this.state.errorMsg.images}
               />
               <input
@@ -450,7 +417,7 @@ class UpdatePropertiesPage extends React.Component {
                 id="images"
                 name="images"
                 className="form-field"
-                value={this.state.images || ""}
+                value={this.state.property.images || ""}
                 onChange={(e) => this.updateImages(e.target.value)}
               />
             </div>
@@ -814,3 +781,40 @@ export default UpdatePropertiesPage;
 // }
 
 // export default UpdatePropertiesPage;
+
+// console.log(this.getProperty(propertyId));
+// const singleProp = this.getProperty(propertyId);
+// console.log(singleProp);
+
+// console.log(this.getSingleProperty())
+// .then((response) => {
+//   console.log(response);
+//   return response.json();
+// })
+// .then((response) => {
+//   // setIsLoading(false);
+//   console.log(response);
+//   // const loadedProperties = response.properties;
+//   // console.log(loadedProperties);
+//   return response;
+// })
+// .then((response) => {
+//   // console.log(response.property);
+//   // console.log(response.property.name);
+//   this.setState({
+//     // singlePro: response.property,
+//     name: response.property.name,
+//     slug: response.property.slug,
+//     location: response.property.location,
+//     amount: response.property.amount,
+//     completion: response.property.completion,
+//     description: response.property.description,
+//     images: response.property.images,
+//   });
+//   // return response.property;
+// })
+// .catch((err) => {
+//   console.log(err);
+//   // setIsLoading(false);
+//   // setError(err.msg || "Something went wrong!");
+// });
