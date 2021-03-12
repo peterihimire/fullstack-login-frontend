@@ -30,6 +30,7 @@ const PropertyList = (props) => {
             completion={property.completion}
             description={property.description}
             image={property.images}
+            onDelete={props.onDeleteProperty}
           />
         );
       })}

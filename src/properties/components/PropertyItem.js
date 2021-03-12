@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useHistory } from "react";
 
 import Card from "../../shared/components/UIElements/Card";
 import Button from "../../shared/components/FormElements/Button";
@@ -8,6 +8,10 @@ import { AuthContext } from "../../shared/context/auth-context";
 import "./PropertyItem.css";
 
 const PlaceItem = (props) => {
+  console.log(props);
+
+  // const history = useHistory
+
   const auth = useContext(AuthContext);
 
   const [showMap, setShowMap] = useState(false);
@@ -27,6 +31,39 @@ const PlaceItem = (props) => {
   const confirmDeleteHandler = () => {
     setShowConfirmModal(false);
     console.log("Property Deleted...");
+
+    fetch(`http://localhost:7000/api/admin/properties/${props.id}`, {
+      method: "DELETE",
+    })
+      .then((response) => {
+        response
+          .json()
+          .then((res) => {
+            console.log(res);
+            console.log(props);
+            if (!response.ok) {
+              throw new Error(res.msg);
+            }
+            // this.setState({ loading: false });
+            console.log(response);
+            props.onDelete(props.id);
+            // props.history.push("/properties");
+          })
+          .catch((err) => {
+            console.log(err);
+            // this.setState({
+            //   error:
+            //     err.message || "Something went wrong , please try again...",
+            // });
+            // this.setState({ loading: false });
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+        // this.setState({
+        //   error: err.message || "Something went wrong , please try again...",
+        // });
+      });
   };
 
   return (

@@ -262,7 +262,7 @@ class UpdatePropertiesPage extends React.Component {
     }; // Sending this to the backend
 
     fetch(`http://localhost:7000/api/admin/properties/${propertyId}`, {
-      method: "PuT",
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },

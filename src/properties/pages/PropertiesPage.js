@@ -14,6 +14,15 @@ const PropertiesPage = () => {
     setError("");
   };
 
+  // DELETE PROPERTY METHOD
+  const propertyDeleteHandler = (deletePropertyId) => {
+    setLoadedProperties((prevProperties) =>
+      prevProperties.filter((property) => {
+        return property.id !== deletePropertyId;
+      })
+    );
+  };
+
   // MAKE REQUEST FOR ALL PROPERTIES
   const getProperties = () => {
     setIsLoading(true);
@@ -46,7 +55,10 @@ const PropertiesPage = () => {
     <>
       <ErrorModal error={error} onClear={errorModalHandler} />
       {isLoading && <LoadingSpinner asOverlay />}
-      <PropertyList items={loadedProperties} />
+      <PropertyList
+        items={loadedProperties}
+        onDeleteProperty={propertyDeleteHandler}
+      />
     </>
   );
 };
