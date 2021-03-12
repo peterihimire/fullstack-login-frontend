@@ -52,7 +52,16 @@ const PropertiesPage = (props) => {
   };
 
   useEffect(() => {
-    getProperties();
+    // // MEMORY LEAK ISSUES HERE
+    // getProperties();
+    // MEMORY LEAK ISSUES HERE
+    let isMounted = true;
+    if (isMounted) {
+      getProperties();
+    }
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   return (

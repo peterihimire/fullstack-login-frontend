@@ -121,15 +121,19 @@ class LoginPage extends React.Component {
           .json()
           .then((res) => {
             console.log(res);
+            console.log(res.userId);
+            console.log(res.token);
             if (!response.ok) {
               throw new Error(res.msg);
             }
             this.setState({ loading: false });
             console.log(response);
-            this.context.login(res.userId);
+            this.context.login(res.userId, res.token);
+
             console.log(res.userId);
             // SAVES USER DATA AND TOKEN ONCE LOGGED IN
             localStorage.setItem("user", JSON.stringify(res));
+            this.props.history.push("/profile");
           })
           .catch((err) => {
             console.log(err);
