@@ -4,7 +4,7 @@ import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 
 import PropertyList from "../components/PropertyList";
 
-const PropertiesPage = () => {
+const PropertiesPage = (props) => {
   const [loadedProperties, setLoadedProperties] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -26,7 +26,11 @@ const PropertiesPage = () => {
   // MAKE REQUEST FOR ALL PROPERTIES
   const getProperties = () => {
     setIsLoading(true);
-    fetch("http://localhost:7000/api/properties")
+    fetch("http://localhost:7000/api/properties", {
+      headers: {
+        // Authorization: "Bearer " + props.token,
+      },
+    })
       .then((response) => {
         response.json().then((res) => {
           console.log(res);

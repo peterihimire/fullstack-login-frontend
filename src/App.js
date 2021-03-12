@@ -32,6 +32,8 @@ function App() {
   const logout = useCallback(() => {
     setIsLoggedIn(false);
     setUserId(null);
+    // LOGS USER OUT AND CLEARS DATA
+    localStorage.removeItem('user')
   }, []);
 
   let routes;

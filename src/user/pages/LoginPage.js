@@ -104,10 +104,12 @@ class LoginPage extends React.Component {
     // };
     // console.log(data);
     this.setState({ loading: true });
+    console.log(this.props);
     fetch("http://localhost:7000/api/users/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        // Authorization: "Bearer" + this.props.token,
       },
       body: JSON.stringify({
         email: this.state.email,
@@ -126,6 +128,8 @@ class LoginPage extends React.Component {
             console.log(response);
             this.context.login(res.userId);
             console.log(res.userId);
+            // SAVES USER DATA AND TOKEN ONCE LOGGED IN
+            localStorage.setItem("user", JSON.stringify(res));
           })
           .catch((err) => {
             console.log(err);
