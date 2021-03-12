@@ -1,5 +1,5 @@
-import React, { useState, useContext, useHistory } from "react";
-
+import React, { useState, useContext } from "react";
+import { useHistory } from "react-router-dom";
 import Card from "../../shared/components/UIElements/Card";
 import Button from "../../shared/components/FormElements/Button";
 import Modal from "../../shared/components/UIElements/Modal";
@@ -10,7 +10,8 @@ import "./PropertyItem.css";
 const PlaceItem = (props) => {
   console.log(props);
 
-  // const history = useHistory
+  const history = useHistory();
+  console.log(history);
 
   const auth = useContext(AuthContext);
 
@@ -47,7 +48,7 @@ const PlaceItem = (props) => {
             // this.setState({ loading: false });
             console.log(response);
             props.onDelete(props.id);
-            // props.history.push("/properties");
+            history.push("/");
           })
           .catch((err) => {
             console.log(err);

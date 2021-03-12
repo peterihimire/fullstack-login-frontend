@@ -83,7 +83,6 @@ class LoginPage extends React.Component {
   componentDidMount() {
     const context = this.context;
     console.log(context);
-
     console.log(context.login);
   }
 
@@ -95,6 +94,7 @@ class LoginPage extends React.Component {
   submitHandler = (e) => {
     e.preventDefault();
     console.log(this.context);
+    console.log(this.context.login);
     // console.log("Email:" + this.state.email);
     // console.log("Password:" + this.state.password);
 
@@ -124,7 +124,8 @@ class LoginPage extends React.Component {
             }
             this.setState({ loading: false });
             console.log(response);
-            this.context.login();
+            this.context.login(res.userId);
+            console.log(res.userId);
           })
           .catch((err) => {
             console.log(err);

@@ -1,4 +1,5 @@
 import React from "react";
+// import { withRouter } from "react-router-dom";
 import "./PropertyForm.css";
 
 function ValidationMessage(props) {
@@ -9,24 +10,27 @@ function ValidationMessage(props) {
 }
 
 class NewPropertyPage extends React.Component {
-  state = {
-    name: "",
-    nameValid: false,
-    slug: "",
-    slugValid: false,
-    location: "",
-    locationValid: false,
-    amount: "",
-    amountValid: false,
-    completion: "",
-    completionValid: false,
-    description: "",
-    descriptionValid: false,
-    images: "",
-    imagesValid: false,
-    formValid: false,
-    errorMsg: {},
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: "",
+      nameValid: false,
+      slug: "",
+      slugValid: false,
+      location: "",
+      locationValid: false,
+      amount: "",
+      amountValid: false,
+      completion: "",
+      completionValid: false,
+      description: "",
+      descriptionValid: false,
+      images: "",
+      imagesValid: false,
+      formValid: false,
+      errorMsg: {},
+    };
+  }
 
   validateForm = () => {
     const {
@@ -174,6 +178,15 @@ class NewPropertyPage extends React.Component {
     this.setState({ imagesValid, errorMsg }, this.validateForm);
   };
 
+  // HISTORY REDIRECT METHOD FOR CLASS
+  // historyPush = () => {
+  //   const { history } = this.props;
+  //   console.log(history);
+  //   if (history) {
+  //     return history.push("/properties");
+  //   }
+  // };
+
   propertySubmitHandler = (e) => {
     e.preventDefault();
     console.log("name:" + this.state.name);
@@ -193,7 +206,6 @@ class NewPropertyPage extends React.Component {
       description: this.state.description,
       images: this.state.images,
     }; // Sending this to the backend
-
 
     fetch(`http://localhost:7000/api/admin/property/`, {
       method: "POST",
@@ -220,7 +232,9 @@ class NewPropertyPage extends React.Component {
             }
             // this.setState({ loading: false });
             console.log(response);
-            // this.props.history.push("/properties");
+            console.log(this.props);
+
+            this.props.history.push("/");
           })
           .catch((err) => {
             console.log(err);
@@ -374,8 +388,8 @@ class NewPropertyPage extends React.Component {
     );
   }
 }
-
 export default NewPropertyPage;
+// export default withRouter(NewPropertyPage);
 
 // import React from "react";
 

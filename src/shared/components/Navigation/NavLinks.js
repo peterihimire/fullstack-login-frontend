@@ -16,6 +16,13 @@ const NavLinks = (props) => {
       </li>
       {auth.isLoggedIn && (
         <li>
+          <NavLink to="/profile" exact>
+            Profile
+          </NavLink>
+        </li>
+      )}
+      {auth.isLoggedIn && (
+        <li>
           <NavLink to="/properties" exact>
             Properties
           </NavLink>
