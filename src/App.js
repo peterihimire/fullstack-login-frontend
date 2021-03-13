@@ -42,7 +42,7 @@ function App() {
   let routes;
 
   if (isLoggedIn) {
-  // if (token) {
+    // if (token) {
     routes = (
       <Switch>
         <Route path="/" exact>

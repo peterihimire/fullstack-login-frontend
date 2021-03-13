@@ -9,6 +9,15 @@ const PropertiesPage = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
+  const getCurrentUser = () => {
+    return JSON.parse(localStorage.getItem("user"));
+  };
+  
+  getCurrentUser();
+  console.log(getCurrentUser());
+  let user = getCurrentUser();
+  console.log(user);
+
   // REMOVES THE ERROR MODAL
   const errorModalHandler = () => {
     setError("");
@@ -27,9 +36,9 @@ const PropertiesPage = (props) => {
   const getProperties = () => {
     setIsLoading(true);
     fetch("http://localhost:7000/api/properties", {
-      headers: {
-        // Authorization: "Bearer " + props.token,
-      },
+      // headers: {
+      //   Authorization: "Bearer " + user.token,
+      // },
     })
       .then((response) => {
         response.json().then((res) => {
