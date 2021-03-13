@@ -9,22 +9,22 @@ const NavLinks = (props) => {
 
   return (
     <ul className="nav-links">
-      <li>
+      {/* <li>
         <NavLink to="/" exact>
           Home
         </NavLink>
-      </li>
-      {auth.isLoggedIn && (
+      </li> */}
+      {/* {auth.isLoggedIn && (
         <li>
           <NavLink to="/profile" exact>
             Profile
           </NavLink>
         </li>
-      )}
+      )} */}
       {auth.isLoggedIn && (
         <li>
           <NavLink to="/properties" exact>
-            Properties
+            Welcome
           </NavLink>
         </li>
       )}

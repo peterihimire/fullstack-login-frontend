@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import "./App.css";
 import {
   BrowserRouter as Router,
@@ -29,6 +29,10 @@ function App() {
     // setIsLoggedIn(true);
     setToken(token);
     setUserId(uid);
+    localStorage.setItem(
+      "userData",
+      JSON.stringify({ userId: uid, token: token })
+    );
   }, []);
 
   const logout = useCallback(() => {
@@ -36,13 +40,21 @@ function App() {
     setToken(null);
     setUserId(null);
     // LOGS USER OUT AND CLEARS DATA
-    localStorage.removeItem("user");
+    localStorage.removeItem("userData");
   }, []);
+
+  // MAKES SURE WHEN PAGE RELOADS THE USER IS LOGGED IN
+  useEffect(() => {
+    const storedData = JSON.parse(localStorage.getItem("userData"));
+    if (storedData && storedData.token) {
+      login(storedData.userId, storedData.token);
+    }
+  }, [login]);
 
   let routes;
 
   // if (isLoggedIn) {
-    if (token) {
+  if (token) {
     routes = (
       <Switch>
         <Route path="/" exact>
