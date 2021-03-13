@@ -1,5 +1,5 @@
 import React from "react";
-// import { withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { AuthContext } from "../../shared/context/auth-context";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
@@ -413,8 +413,8 @@ class NewPropertyPage extends React.Component {
     );
   }
 }
-export default NewPropertyPage;
-// export default withRouter(NewPropertyPage);
+// export default NewPropertyPage;
+export default withRouter(NewPropertyPage);
 
 // import React from "react";
 
