@@ -21,19 +21,19 @@ import Dashboard from "./user/pages/Dashboard";
 import { AuthContext } from "./shared/context/auth-context";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  // const [token, setToken] = useState(false);
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [token, setToken] = useState(false);
   const [userId, setUserId] = useState(false);
 
-  const login = useCallback((uid) => {
-    setIsLoggedIn(true);
-    // setToken(token);
+  const login = useCallback((uid, token) => {
+    // setIsLoggedIn(true);
+    setToken(token);
     setUserId(uid);
   }, []);
 
   const logout = useCallback(() => {
-    setIsLoggedIn(false);
-    // setToken(null);
+    // setIsLoggedIn(false);
+    setToken(null);
     setUserId(null);
     // LOGS USER OUT AND CLEARS DATA
     localStorage.removeItem("user");
@@ -41,8 +41,8 @@ function App() {
 
   let routes;
 
-  if (isLoggedIn) {
-    // if (token) {
+  // if (isLoggedIn) {
+    if (token) {
     routes = (
       <Switch>
         <Route path="/" exact>
@@ -90,9 +90,9 @@ function App() {
   return (
     <AuthContext.Provider
       value={{
-        isLoggedIn: isLoggedIn,
-        // isLoggedIn: !!token,
-        // token: token,
+        // isLoggedIn: isLoggedIn,
+        isLoggedIn: !!token,
+        token: token,
         userId: userId,
         login: login,
         logout: logout,

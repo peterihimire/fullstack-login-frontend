@@ -1,5 +1,8 @@
 import React from "react";
 // import { withRouter } from "react-router-dom";
+import { AuthContext } from "../../shared/context/auth-context";
+import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
+import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import "./PropertyForm.css";
 
 function ValidationMessage(props) {
@@ -10,6 +13,10 @@ function ValidationMessage(props) {
 }
 
 class NewPropertyPage extends React.Component {
+  static contextType = AuthContext;
+
+  context = this.context;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -29,6 +36,8 @@ class NewPropertyPage extends React.Component {
       imagesValid: false,
       formValid: false,
       errorMsg: {},
+      loading: false,
+      error: null,
     };
   }
 
@@ -187,6 +196,17 @@ class NewPropertyPage extends React.Component {
   //   }
   // };
 
+  componentDidMount() {
+    const context = this.context;
+    console.log(context);
+    console.log(context.login);
+  }
+
+  // TO REMOVE ERROR MODAL
+  errorModalHandler = () => {
+    this.setState({ error: null });
+  };
+
   propertySubmitHandler = (e) => {
     e.preventDefault();
     console.log("name:" + this.state.name);
@@ -211,6 +231,7 @@ class NewPropertyPage extends React.Component {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer " + this.context.token,
       },
       body: JSON.stringify({
         name: this.state.name,
@@ -256,135 +277,139 @@ class NewPropertyPage extends React.Component {
 
   render() {
     return (
-      <div className="App">
-        {/* <header>Form Validation</header> */}
-        {/* <main role="main"> */}
-        <form action="#" id="js-form" onSubmit={this.propertySubmitHandler}>
-          <div className="form-group">
-            <label htmlFor="name">Name</label>
-            <ValidationMessage
-              valid={this.state.nameValid}
-              message={this.state.errorMsg.name}
-            />
-            <input
-              type="text"
-              id="name"
-              name="name"
-              className="form-field"
-              value={this.state.name}
-              onChange={(e) => this.updateName(e.target.value)}
-            />
-          </div>
+      <>
+        <ErrorModal error={this.state.error} onClear={this.errorModalHandler} />
+        <div className="App">
+          {/* <header>Form Validation</header> */}
+          {/* <main role="main"> */}
+          {this.state.loading && <LoadingSpinner asOverlay />}
+          <form action="#" id="js-form" onSubmit={this.propertySubmitHandler}>
+            <div className="form-group">
+              <label htmlFor="name">Name</label>
+              <ValidationMessage
+                valid={this.state.nameValid}
+                message={this.state.errorMsg.name}
+              />
+              <input
+                type="text"
+                id="name"
+                name="name"
+                className="form-field"
+                value={this.state.name}
+                onChange={(e) => this.updateName(e.target.value)}
+              />
+            </div>
 
-          <div className="form-group">
-            <label htmlFor="slug">slug</label>
-            <ValidationMessage
-              valid={this.state.slugValid}
-              message={this.state.errorMsg.slug}
-            />
-            <input
-              type="text"
-              id="slug"
-              name="slug"
-              className="form-field"
-              value={this.state.slug}
-              onChange={(e) => this.updateSlug(e.target.value)}
-            />
-          </div>
+            <div className="form-group">
+              <label htmlFor="slug">slug</label>
+              <ValidationMessage
+                valid={this.state.slugValid}
+                message={this.state.errorMsg.slug}
+              />
+              <input
+                type="text"
+                id="slug"
+                name="slug"
+                className="form-field"
+                value={this.state.slug}
+                onChange={(e) => this.updateSlug(e.target.value)}
+              />
+            </div>
 
-          <div className="form-group">
-            <label htmlFor="location">location</label>
-            <ValidationMessage
-              valid={this.state.locationValid}
-              message={this.state.errorMsg.location}
-            />
-            <input
-              type="text"
-              id="location"
-              name="location"
-              className="form-field"
-              value={this.state.location}
-              onChange={(e) => this.updateLocation(e.target.value)}
-            />
-          </div>
+            <div className="form-group">
+              <label htmlFor="location">location</label>
+              <ValidationMessage
+                valid={this.state.locationValid}
+                message={this.state.errorMsg.location}
+              />
+              <input
+                type="text"
+                id="location"
+                name="location"
+                className="form-field"
+                value={this.state.location}
+                onChange={(e) => this.updateLocation(e.target.value)}
+              />
+            </div>
 
-          <div className="form-group">
-            <label htmlFor="amount">amount</label>
-            <ValidationMessage
-              valid={this.state.amountValid}
-              message={this.state.errorMsg.amount}
-            />
-            <input
-              type="text"
-              id="amount"
-              name="amount"
-              className="form-field"
-              value={this.state.amount}
-              onChange={(e) => this.updateAmount(e.target.value)}
-            />
-          </div>
+            <div className="form-group">
+              <label htmlFor="amount">amount</label>
+              <ValidationMessage
+                valid={this.state.amountValid}
+                message={this.state.errorMsg.amount}
+              />
+              <input
+                type="text"
+                id="amount"
+                name="amount"
+                className="form-field"
+                value={this.state.amount}
+                onChange={(e) => this.updateAmount(e.target.value)}
+              />
+            </div>
 
-          <div className="form-group">
-            <label htmlFor="completion">completion</label>
-            <ValidationMessage
-              valid={this.state.completionValid}
-              message={this.state.errorMsg.completion}
-            />
-            <input
-              type="text"
-              id="completion"
-              name="completion"
-              className="form-field"
-              value={this.state.completion}
-              onChange={(e) => this.updateCompletion(e.target.value)}
-            />
-          </div>
+            <div className="form-group">
+              <label htmlFor="completion">completion</label>
+              <ValidationMessage
+                valid={this.state.completionValid}
+                message={this.state.errorMsg.completion}
+              />
+              <input
+                type="text"
+                id="completion"
+                name="completion"
+                className="form-field"
+                value={this.state.completion}
+                onChange={(e) => this.updateCompletion(e.target.value)}
+              />
+            </div>
 
-          <div className="form-group">
-            <label htmlFor="description">description</label>
-            <ValidationMessage
-              valid={this.state.descriptionValid}
-              message={this.state.errorMsg.description}
-            />
-            <textarea
-              type="text"
-              id="description"
-              name="description"
-              rows="8"
-              className="form-field-2"
-              value={this.state.description}
-              onChange={(e) => this.updateDescription(e.target.value)}
-            ></textarea>
-          </div>
+            <div className="form-group">
+              <label htmlFor="description">description</label>
+              <ValidationMessage
+                valid={this.state.descriptionValid}
+                message={this.state.errorMsg.description}
+              />
+              <textarea
+                type="text"
+                id="description"
+                name="description"
+                rows="8"
+                className="form-field-2"
+                value={this.state.description}
+                onChange={(e) => this.updateDescription(e.target.value)}
+              ></textarea>
+            </div>
 
-          <div className="form-group">
-            <label htmlFor="images">images</label>
-            <ValidationMessage
-              valid={this.state.completionValid}
-              message={this.state.errorMsg.completion}
-            />
-            <input
-              type="text"
-              id="images"
-              name="images"
-              className="form-field"
-              value={this.state.images}
-              onChange={(e) => this.updateImages(e.target.value)}
-            />
-          </div>
+            <div className="form-group">
+              <label htmlFor="images">images</label>
+              <ValidationMessage
+                valid={this.state.completionValid}
+                message={this.state.errorMsg.completion}
+              />
+              <input
+                type="text"
+                id="images"
+                name="images"
+                className="form-field"
+                value={this.state.images}
+                onChange={(e) => this.updateImages(e.target.value)}
+              />
+            </div>
 
-          <div className="form-controls">
-            <button
-              className="button"
-              type="submit"
-              disabled={!this.state.formValid}
-            >
-              Add Property
-            </button>
-          </div>
-        </form>
-        {/* </main> */}
-      </div>
+            <div className="form-controls">
+              <button
+                className="button"
+                type="submit"
+                disabled={!this.state.formValid}
+              >
+                Add Property
+              </button>
+            </div>
+          </form>
+          {/* </main> */}
+        </div>
+      </>
     );
   }
 }

@@ -286,7 +286,7 @@ class UpdatePropertiesPage extends React.Component {
             }
             // this.setState({ loading: false });
             console.log(response);
-            this.props.history.push("/profile");
+            this.props.history.push("/properties");
           })
           .catch((err) => {
             console.log(err);

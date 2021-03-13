@@ -15,9 +15,9 @@ const Dashboard = () => {
 
   return (
     <div>
-      <h1>{user.msg}</h1>
+      {/* <h1>{user.msg}</h1>
       <h2>{user.userName}</h2>
-      <h3>{user.userId}</h3>
+      <h3>{user.userId}</h3> */}
       {/* <h4>{user.token}</h4> */}
     </div>
   );

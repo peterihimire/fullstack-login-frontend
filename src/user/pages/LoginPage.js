@@ -81,6 +81,13 @@ class LoginPage extends React.Component {
   };
 
   componentDidMount() {
+    // let isMounted = true;
+    // if (isMounted) {
+    //   const context = this.context;
+    // }
+    // return () => {
+    //   isMounted = false;
+    // };
     const context = this.context;
     console.log(context);
     console.log(context.login);
@@ -132,8 +139,8 @@ class LoginPage extends React.Component {
 
             console.log(res.userId);
             // SAVES USER DATA AND TOKEN ONCE LOGGED IN
-            localStorage.setItem("user", JSON.stringify(res));
-            this.props.history.push("/profile");
+            // localStorage.setItem("user", JSON.stringify(res));
+            // this.props.history.push("/profile");
           })
           .catch((err) => {
             console.log(err);

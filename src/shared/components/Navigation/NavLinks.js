@@ -35,11 +35,11 @@ const NavLinks = (props) => {
           </NavLink>
         </li>
       )}
-      {auth.isLoggedIn && (
+      {/* {auth.isLoggedIn && (
         <li>
           <NavLink to="/users">Users</NavLink>
         </li>
-      )}
+      )} */}
       {!auth.isLoggedIn && (
         <li>
           <NavLink to="/login">Login</NavLink>

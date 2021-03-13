@@ -1,18 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
-
+import { AuthContext } from "../../shared/context/auth-context";
 import PropertyList from "../components/PropertyList";
 
 const PropertiesPage = (props) => {
+  const auth = useContext(AuthContext);
+  console.log(auth);
+
   const [loadedProperties, setLoadedProperties] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState();
 
   const getCurrentUser = () => {
     return JSON.parse(localStorage.getItem("user"));
   };
-  
+
   getCurrentUser();
   console.log(getCurrentUser());
   let user = getCurrentUser();
@@ -36,27 +39,37 @@ const PropertiesPage = (props) => {
   const getProperties = () => {
     setIsLoading(true);
     fetch("http://localhost:7000/api/properties", {
-      // headers: {
-      //   Authorization: "Bearer " + user.token,
-      // },
+      headers: {
+        Authorization: "Bearer " + auth.token,
+      },
     })
       .then((response) => {
-        response.json().then((res) => {
-          console.log(res);
-          if (!response.ok) {
-            throw new Error(res.msg);
-          }
-          setIsLoading(false);
-          console.log(res);
-          console.log(res.properties);
-          const loadedProperties = res.properties;
-          setLoadedProperties(loadedProperties);
-        });
+        response
+          .json()
+          .then((res) => {
+            console.log(res);
+            if (!response.ok) {
+              throw new Error(res.msg);
+            }
+            setIsLoading(false);
+            console.log(res);
+            console.log(res.properties);
+            const loadedProperties = res.properties;
+            setLoadedProperties(loadedProperties);
+          })
+          .catch((err) => {
+            console.log(err);
+            console.log(typeof err);
+            setIsLoading(false);
+            setError(
+              err.message || "You are not Authorized to view this page!"
+            );
+          });
       })
       .catch((err) => {
         console.log(err);
         setIsLoading(false);
-        setError(err.msg || "Something went wrong!");
+        setError(err.msg || "Error occured , please try again!");
       });
   };
 
