@@ -84,15 +84,15 @@ function App() {
           <SingleUser />
         </Route>
         {/* <Route></Route> */}
-        <Redirect to="/properties" />
+        <Redirect to="/profile" />
       </Switch>
     );
   } else {
     routes = (
       <Switch>
-        <Route path="/" exact>
+        {/* <Route path="/" exact>
           <HomePage />
-        </Route>
+        </Route> */}
         <Route path="/login" component={LoginPage} />
         <Route path="/signup" component={SignupPage} />
         <Redirect to="/login" />
