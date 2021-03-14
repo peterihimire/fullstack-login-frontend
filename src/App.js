@@ -103,7 +103,7 @@ function App() {
     <AuthContext.Provider
       value={{
         // isLoggedIn: isLoggedIn,
-        isLoggedIn: !!token,
+        isLoggedIn: !!token, // The double BANG [!!] returns true else it returns false
         token: token,
         userId: userId,
         login: login,

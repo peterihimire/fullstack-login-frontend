@@ -11,7 +11,6 @@ const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState();
 
-
   console.log(user);
 
   const getCurrentUser = () => {
@@ -53,7 +52,7 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    //  THIS MAKE THAT IF NO USER-ID THEN LOADING SPINNER ELSE THE FUNCTION WORKS, THE DEPENDENCY IS AUTH.USERID
+    //  THIS METHOD MAKES SURE THAT IF NO USER-ID THEN LOADING SPINNER ELSE THE METHOD WORKS, THE DEPENDENCY IS AUTH.USERID
     if (!auth.userId) {
       setIsLoading(true);
     }
