@@ -3,6 +3,7 @@ import { withRouter } from "react-router-dom";
 import { AuthContext } from "../../shared/context/auth-context";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
+import ImageUpload from "../../shared/components/FormElements/ImageUpload";
 import "./PropertyForm.css";
 
 function ValidationMessage(props) {
@@ -229,12 +230,12 @@ class NewPropertyPage extends React.Component {
 
     const formData = new FormData();
     formData.append("name", this.state.name);
-    formData.append("slug",this.state.slug);
-    formData.append("location",this.state.location);
-    formData.append("amount",this.state.amount);
-    formData.append("completion",this.state.completion);
-    formData.append("description",this.state.description);
-    formData.append("image",this.state.image);
+    formData.append("slug", this.state.slug);
+    formData.append("location", this.state.location);
+    formData.append("amount", this.state.amount);
+    formData.append("completion", this.state.completion);
+    formData.append("description", this.state.description);
+    formData.append("image", this.state.image);
 
     fetch(`http://localhost:7000/api/admin/property/`, {
       method: "POST",
@@ -282,7 +283,7 @@ class NewPropertyPage extends React.Component {
           error: err.message || "Something went wrong , please try again...",
         });
       });
-    console.log(data);
+    // console.log(data);
   };
 
   render() {
@@ -392,7 +393,8 @@ class NewPropertyPage extends React.Component {
 
             <div className="form-group">
               <label htmlFor="images">images</label>
-              <ValidationMessage
+              <ImageUpload id='image' center/>
+              {/* <ValidationMessage
                 valid={this.state.completionValid}
                 message={this.state.errorMsg.completion}
               />
@@ -403,7 +405,7 @@ class NewPropertyPage extends React.Component {
                 className="form-field"
                 value={this.state.image}
                 onChange={(e) => this.updateImage(e.target.value)}
-              />
+              /> */}
             </div>
 
             <div className="form-controls">
@@ -416,7 +418,6 @@ class NewPropertyPage extends React.Component {
               </button>
             </div>
           </form>
-        
         </div>
       </>
     );
@@ -424,17 +425,6 @@ class NewPropertyPage extends React.Component {
 }
 
 export default withRouter(NewPropertyPage);
-
-
-
-
-
-
-
-
-
-
-
 
 // import React from "react";
 // import { withRouter } from "react-router-dom";
@@ -664,7 +654,6 @@ export default withRouter(NewPropertyPage);
 //       description: this.state.description,
 //       image: this.state.image,
 //     }; // Sending this to the backend
-
 
 //     fetch(`http://localhost:7000/api/admin/property/`, {
 //       method: "POST",
