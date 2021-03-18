@@ -3,7 +3,7 @@ import { withRouter } from "react-router-dom";
 import { AuthContext } from "../../shared/context/auth-context";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
-import ImageUpload from "../../shared/components/FormElements/ImageUpload";
+// import ImageUpload from "../../shared/components/FormElements/ImageUpload";
 import "./PropertyForm.css";
 
 function ValidationMessage(props) {
@@ -171,21 +171,27 @@ class NewPropertyPage extends React.Component {
     this.setState({ descriptionValid, errorMsg }, this.validateForm);
   };
   // VALIDITY FOR IMAGE
-  updateImage = (image) => {
-    this.setState({ image }, this.validateImage);
-  };
+  // updateImage = (image) => {
+  //   this.setState({ image }, this.validateImage);
+  // };
 
-  validateImage = () => {
-    const { image } = this.state;
-    let imageValid = true;
-    let errorMsg = { ...this.state.errorMsg };
+  // validateImage = () => {
+  //   const { image } = this.state;
+  //   let imageValid = true;
+  //   let errorMsg = { ...this.state.errorMsg };
 
-    if (image.length < 3) {
-      imageValid = false;
-      errorMsg.image = "Must be at least 3 characters long";
-    }
+  //   if (image.length < 3) {
+  //     imageValid = false;
+  //     errorMsg.image = "Must be at least 3 characters long";
+  //   }
 
-    this.setState({ imageValid, errorMsg }, this.validateForm);
+  //   this.setState({ imageValid, errorMsg }, this.validateForm);
+  // };
+
+  fileSelectedHandler = (e) => {
+    e.preventDefault();
+    console.log(e.target.files[0]);
+    this.setState({ image: e.target.files[0] });
   };
 
   // HISTORY REDIRECT METHOD FOR CLASS
@@ -216,17 +222,17 @@ class NewPropertyPage extends React.Component {
     console.log("amount:" + this.state.amount);
     console.log("completion:" + this.state.completion);
     console.log("description:" + this.state.description);
-    console.log("image:" + this.state.image);
+    console.log("image:" + this.state.image.name);
 
-    const data = {
-      name: this.state.name,
-      slug: this.state.slug,
-      location: this.state.location,
-      amount: this.state.amount,
-      completion: this.state.completion,
-      description: this.state.description,
-      image: this.state.image,
-    }; // Sending this to the backend
+    // const data = {
+    //   name: this.state.name,
+    //   slug: this.state.slug,
+    //   location: this.state.location,
+    //   amount: this.state.amount,
+    //   completion: this.state.completion,
+    //   description: this.state.description,
+    //   image: this.state.image.name,
+    // }; // Sending this to the backend
 
     const formData = new FormData();
     formData.append("name", this.state.name);
@@ -235,7 +241,7 @@ class NewPropertyPage extends React.Component {
     formData.append("amount", this.state.amount);
     formData.append("completion", this.state.completion);
     formData.append("description", this.state.description);
-    formData.append("image", this.state.image);
+    formData.append("image", this.state.image, this.state.image.name);
 
     fetch(`http://localhost:7000/api/admin/property/`, {
       method: "POST",
@@ -393,8 +399,8 @@ class NewPropertyPage extends React.Component {
 
             <div className="form-group">
               <label htmlFor="images">images</label>
-              <ImageUpload id='image' center/>
-              {/* <ValidationMessage
+
+              <ValidationMessage
                 valid={this.state.completionValid}
                 message={this.state.errorMsg.completion}
               />
@@ -403,16 +409,18 @@ class NewPropertyPage extends React.Component {
                 id="image"
                 name="image"
                 className="form-field"
-                value={this.state.image}
-                onChange={(e) => this.updateImage(e.target.value)}
-              /> */}
+                accept=".jpg, .png, .jpeg"
+                // value={this.state.image.name || ''}
+                onChange={this.fileSelectedHandler}
+                // onChange={(e) => this.updateImage(e.target.value)}
+              />
             </div>
 
             <div className="form-controls">
               <button
                 className="button"
                 type="submit"
-                disabled={!this.state.formValid}
+                // disabled={!this.state.formValid}
               >
                 Add Property
               </button>
