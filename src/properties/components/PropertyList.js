@@ -29,7 +29,7 @@ const PropertyList = (props) => {
             amount={property.amount}
             completion={property.completion}
             description={property.description}
-            image={property.images}
+            image={property.image}
             onDelete={props.onDeleteProperty}
           />
         );

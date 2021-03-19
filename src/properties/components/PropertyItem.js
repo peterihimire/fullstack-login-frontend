@@ -9,6 +9,7 @@ import "./PropertyItem.css";
 
 const PlaceItem = (props) => {
   console.log(props);
+  console.log(props.image)
 
   const history = useHistory();
   console.log(history);

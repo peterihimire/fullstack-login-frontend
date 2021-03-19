@@ -189,7 +189,7 @@ class NewPropertyPage extends React.Component {
   // };
 
   fileSelectedHandler = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     console.log(e.target.files[0]);
     this.setState({ image: e.target.files[0] });
   };
@@ -222,7 +222,7 @@ class NewPropertyPage extends React.Component {
     console.log("amount:" + this.state.amount);
     console.log("completion:" + this.state.completion);
     console.log("description:" + this.state.description);
-    console.log("image:" + this.state.image.name);
+    console.log("image:" + this.state.image);
 
     // const data = {
     //   name: this.state.name,
