@@ -8,3 +8,24 @@
   border-radius: 6px;
   background: white;
 }
+.form-file {
+  display: none;
+}
+
+.form-image-btn {
+  height: 200px !important;
+  width: 330px !important;
+  /* padding: 5rem !important; */
+  /* border-radius: 50%; */
+  border-radius: 5px;
+  outline: none;
+  text-transform: capitalize;
+  background-color: #fff !important;
+}
+
+.preview-img img {
+  height: 200px !important;
+  width: 330px !important;
+  border-radius: 5px;
+  /* object-fit: cover; */
+}
