@@ -49,7 +49,7 @@ const PlaceItem = (props) => {
             // this.setState({ loading: false });
             console.log(response);
             props.onDelete(props.id);
-            history.push("/");
+            history.push("/properties");
           })
           .catch((err) => {
             console.log(err);

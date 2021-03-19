@@ -188,10 +188,21 @@ class NewPropertyPage extends React.Component {
   //   this.setState({ imageValid, errorMsg }, this.validateForm);
   // };
 
-  fileSelectedHandler = (e) => {
+  updateImage = (e) => {
     // e.preventDefault();
     console.log(e.target.files[0]);
-    this.setState({ image: e.target.files[0] });
+    this.setState({ image: e.target.files[0] }, this.validateImage);
+  };
+
+  validateImage = () => {
+    const {image } = this.state
+    let imageValid = true;
+    let errorMsg = {...this.state.errorMsg}
+    if (!image) {
+      imageValid = false;
+      errorMsg.image = "Image field must not be empty";
+    }
+    this.setState({ imageValid, errorMsg }, this.validateForm);
   };
 
   // HISTORY REDIRECT METHOD FOR CLASS
@@ -272,7 +283,7 @@ class NewPropertyPage extends React.Component {
             console.log(response);
             console.log(this.props);
 
-            this.props.history.push("/");
+            this.props.history.push("/properties");
           })
           .catch((err) => {
             console.log(err);
@@ -411,7 +422,7 @@ class NewPropertyPage extends React.Component {
                 className="form-field"
                 accept=".jpg, .png, .jpeg"
                 // value={this.state.image.name || ''}
-                onChange={this.fileSelectedHandler}
+                onChange={this.updateImage}
                 // onChange={(e) => this.updateImage(e.target.value)}
               />
             </div>
@@ -420,7 +431,7 @@ class NewPropertyPage extends React.Component {
               <button
                 className="button"
                 type="submit"
-                // disabled={!this.state.formValid}
+                disabled={!this.state.formValid}
               >
                 Add Property
               </button>
