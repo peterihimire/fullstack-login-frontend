@@ -20,6 +20,8 @@ class SignupPage extends React.Component {
     passwordValid: false,
     passwordConfirm: "",
     passwordConfirmValid: false,
+    adminCode: "",
+    adminCodeValid: false,
     formValid: false,
     errorMsg: {},
     loading: false,
@@ -125,6 +127,24 @@ class SignupPage extends React.Component {
     this.setState({ passwordConfirmValid, errorMsg }, this.validateForm);
   };
 
+  // FOR ADMIN CODE
+  updateAdminCode = (adminCode) => {
+    this.setState({ adminCode }, this.validateAdminCode);
+  };
+
+  validateAdminCode = () => {
+    const { adminCode } = this.state;
+    let adminValid = true;
+    let errorMsg = { ...this.state.errorMsg };
+
+    if (adminCode.length < 3) {
+      adminValid = false;
+      errorMsg.name = "Must be at least 3 characters long";
+    }
+
+    this.setState({ adminValid, errorMsg }, this.validateForm);
+  };
+
   // TO REMOVE ERROR MODAL
   errorModalHandler = () => {
     this.setState({ error: null });
@@ -143,6 +163,7 @@ class SignupPage extends React.Component {
         name: this.state.name,
         email: this.state.email,
         password: this.state.password,
+        admincode: this.state.adminCode,
       }),
     }).then((response) => {
       response
@@ -266,6 +287,25 @@ class SignupPage extends React.Component {
                   className="form-field"
                   value={this.state.passwordConfirm}
                   onChange={(e) => this.updatePasswordConfirm(e.target.value)}
+                />
+              </div>
+              <div className="form-group">
+                {/* <label htmlFor="password-confirmation">
+                  Admin
+                </label> */}
+                <ValidationMessage
+                  valid={this.state.passwordConfirmValid}
+                  message={this.state.errorMsg.passwordConfirm}
+                />
+                <input
+                  type="password"
+                  id="admincode"
+                  name="admincode"
+                  className="form-field"
+                  value={this.state.adminCode}
+                  placeholder='admin code'
+                  // onChange={(e) => e.target.value}
+                  onChange={(e) => this.updateAdminCode(e.target.value)}
                 />
               </div>
               <div className="form-controls">
