@@ -9,12 +9,13 @@ import "./PropertyItem.css";
 
 const PlaceItem = (props) => {
   console.log(props);
-  console.log(props.image)
+  console.log(props.image);
 
   const history = useHistory();
   console.log(history);
 
   const auth = useContext(AuthContext);
+  console.log(auth);
 
   const [showMap, setShowMap] = useState(false);
 
@@ -121,10 +122,10 @@ const PlaceItem = (props) => {
               VIEW ON MAP
             </Button>
             {/* <Button to={`/properties/description/${props.slug}`}>INFO</Button> */}
-            {auth.isLoggedIn && (
+            {auth.isLoggedIn && auth.admin && (
               <Button to={`/properties/${props.id}`}>EDIT</Button>
             )}
-            {auth.isLoggedIn && (
+            {auth.isLoggedIn && auth.admin && (
               <Button danger onClick={showDeleteWarningHandler}>
                 DELETE
               </Button>
