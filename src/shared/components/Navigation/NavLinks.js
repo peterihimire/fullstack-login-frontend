@@ -6,7 +6,7 @@ import "./NavLinks.css";
 
 const NavLinks = (props) => {
   const auth = useContext(AuthContext);
-
+  console.log(auth);
   return (
     <ul className="nav-links">
       {/* <li>
@@ -28,7 +28,8 @@ const NavLinks = (props) => {
           </NavLink>
         </li>
       )}
-      {auth.isLoggedIn && (
+      {/* only displayed for admins */}
+      {auth.isLoggedIn && auth.admin && (
         <li>
           <NavLink to="/properties/new" exact>
             Add Properties

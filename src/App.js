@@ -24,14 +24,16 @@ function App() {
   // const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [token, setToken] = useState(false);
   const [userId, setUserId] = useState(false);
+  const [admin, setAdmin] = useState(false);
 
-  const login = useCallback((uid, token) => {
+  const login = useCallback((uid, token, admin) => {
     // setIsLoggedIn(true);
     setToken(token);
     setUserId(uid);
+    setAdmin(admin);
     localStorage.setItem(
       "userData",
-      JSON.stringify({ userId: uid, token: token })
+      JSON.stringify({ userId: uid, token: token, admin: admin })
     );
   }, []);
 
@@ -39,6 +41,7 @@ function App() {
     // setIsLoggedIn(false);
     setToken(null);
     setUserId(null);
+    setAdmin(null);
     // LOGS USER OUT AND CLEARS DATA
     localStorage.removeItem("userData");
   }, []);
@@ -46,8 +49,8 @@ function App() {
   // MAKES SURE WHEN PAGE RELOADS THE USER IS LOGGED IN
   useEffect(() => {
     const storedData = JSON.parse(localStorage.getItem("userData"));
-    if (storedData && storedData.token) {
-      login(storedData.userId, storedData.token);
+    if (storedData && storedData.token && storedData.admin) {
+      login(storedData.userId, storedData.token, storedData.admin);
     }
   }, [login]);
 
@@ -108,6 +111,7 @@ function App() {
         userId: userId,
         login: login,
         logout: logout,
+        admin: admin,
       }}
     >
       <Router>

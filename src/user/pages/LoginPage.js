@@ -130,12 +130,13 @@ class LoginPage extends React.Component {
             console.log(res);
             console.log(res.userId);
             console.log(res.token);
+            console.log(res.admin);
             if (!response.ok) {
               throw new Error(res.msg);
             }
             this.setState({ loading: false });
             console.log(response);
-            this.context.login(res.userId, res.token);
+            this.context.login(res.userId, res.token, res.admin);
 
             console.log(res.userId);
             // SAVES USER DATA AND TOKEN ONCE LOGGED IN
