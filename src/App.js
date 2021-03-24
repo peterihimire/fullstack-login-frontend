@@ -76,7 +76,7 @@ function App() {
         />
         <Route path="/profile" exact component={Dashboard} />
         <Route
-          path="/properties/description/:slug"
+          path="/properties/detail/:id"
           exact
           component={PropertyDescription}
         />

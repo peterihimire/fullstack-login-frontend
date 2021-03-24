@@ -121,7 +121,7 @@ const PlaceItem = (props) => {
             {/* <Button inverse onClick={openMapHandler}>
               VIEW ON MAP
             </Button> */}
-            <Button to={`/properties/description/${props.slug}`}>INFO</Button>
+            <Button to={`/properties/detail/${props.id}`}>INFO</Button>
             {auth.isLoggedIn && auth.admin && (
               <Button to={`/properties/${props.id}`}>EDIT</Button>
             )}
