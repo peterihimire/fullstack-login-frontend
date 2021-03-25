@@ -1,0 +1,15 @@
+.big-img img {
+  /* height: 300px; */
+  width: 300px;
+}
+
+.my-light-box {
+  width: 300px !important;
+  height: 500px;
+}
+
+.detail-content {
+
+  /* padding: 5rem; */
+  background-color: white;
+}

@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 // import { PropertyContext } from "../context";
+import "./PropertyDescriptionPage.css";
 
 const PropertyDescriptionPage = (props) => {
   // const context = useContext(PropertyContext);
@@ -56,8 +57,8 @@ const PropertyDescriptionPage = (props) => {
             // setIsLoading(false);
             console.log(res);
             console.log(res.property);
-            const loadedProperty = res.property;
-            setLoadedProperty(loadedProperty);
+            const loadProperty = res.property;
+            setLoadedProperty(loadProperty);
           })
           .catch((err) => {
             console.log(err);
@@ -81,23 +82,23 @@ const PropertyDescriptionPage = (props) => {
 
   useEffect(() => {
     if (!propId.id) {
-      console.log(propId.id)
+      console.log(propId.id);
       // setIsLoading(true);
     }
     getSingleProperty();
   }, [propId.id]);
-
+  console.log(loadedProperty);
   return (
     <>
-      <section className="detail-section">
-        {/* <div className="detail-content ">
-          <div className="modal-close-div">
-            <Link to="/co-ownership">
+      {loadedProperty ? (
+        <section className="detail-section">
+          <div className="detail-content ">
+            <div className="modal-close-div">
+              {/* <Link to="/co-ownership">
               <img src={modalClose} alt="modal close" className="" />
-            </Link>
-          </div>
-          <div className="my-lightbox">
-            <div className="">
+            </Link> */}
+            </div>
+            <div className="my-lightbox">
               <div className="big-img">
                 <img
                   src={`http://localhost:7000/${loadedProperty.image}`}
@@ -105,15 +106,15 @@ const PropertyDescriptionPage = (props) => {
                 />
               </div>
             </div>
+            <div className="detail-text">
+              <h4>{loadedProperty.name}</h4>
+              <p className="lc">{loadedProperty.location}</p>
+              <p>{loadedProperty.description}</p>
+              <p className="amt">₦{loadedProperty.amount}</p>
+            </div>
           </div>
-          <div className="detail-text">
-            <h4>{loadedProperty.name}</h4>
-            <p className="lc">{loadedProperty.location}</p>
-            <p>{loadedProperty.description}</p>
-            <p className="amt">₦{loadedProperty.amount}</p>
-          </div>
-        </div> */}
-      </section>
+        </section>
+      ) : null}
     </>
   );
 };
