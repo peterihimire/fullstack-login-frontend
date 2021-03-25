@@ -107,10 +107,16 @@ const PropertyDescriptionPage = (props) => {
               </div>
             </div>
             <div className="detail-text">
+              <h3>Name</h3>
               <h4>{loadedProperty.name}</h4>
+              <h3>Location</h3>
               <p className="lc">{loadedProperty.location}</p>
+              <h3>Property Detail</h3>
               <p>{loadedProperty.description}</p>
-              <p className="amt">₦{loadedProperty.amount}</p>
+              <h3>Amount</h3>
+              <p className="amt">₦{loadedProperty.amount} Million</p>
+              <h3>Completion</h3>
+              <p className="amt">₦{loadedProperty.completion} Million</p>
             </div>
           </div>
         </section>
