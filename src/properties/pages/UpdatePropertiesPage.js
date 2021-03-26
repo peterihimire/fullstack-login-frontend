@@ -11,6 +11,7 @@ function ValidationMessage(props) {
 class UpdatePropertiesPage extends React.Component {
   constructor(props) {
     super(props);
+    this.fileInputRef = React.createRef();
     // GETTING THE PROPERTY ID VIA PAGE-URL-PARAMS
     let propertyId = props.match.params.propertyId;
     console.log(propertyId);
@@ -32,8 +33,9 @@ class UpdatePropertiesPage extends React.Component {
       completionValid: true,
       description: "",
       descriptionValid: true,
-      images: "",
-      imagesValid: true,
+      image: "",
+      imageValid: true,
+      preview: "",
       formValid: true,
       errorMsg: {},
     };
@@ -67,10 +69,12 @@ class UpdatePropertiesPage extends React.Component {
                 amount: res.property.amount || "",
                 completion: res.property.completion || "",
                 description: res.property.description || "",
-                images: res.property.images || "",
+                image: res.property.image || "",
+                preview: `http://localhost:7000/${res.property.image}`,
               });
               let property = res.property;
               console.log(property);
+              console.log(property.image);
               // return property;
               // this.props.history.push("/properties");
             })
@@ -104,7 +108,7 @@ class UpdatePropertiesPage extends React.Component {
       amountValid,
       completionValid,
       descriptionValid,
-      imagesValid,
+      imageValid,
     } = this.state;
     this.setState({
       formValid:
@@ -114,7 +118,7 @@ class UpdatePropertiesPage extends React.Component {
         amountValid &&
         completionValid &&
         descriptionValid &&
-        imagesValid,
+        imageValid,
     });
   };
 
@@ -228,22 +232,30 @@ class UpdatePropertiesPage extends React.Component {
     this.setState({ descriptionValid, errorMsg }, this.validateForm);
   };
 
-  // VALIDITY FOR IMAGES
-  updateImages = (images) => {
-    this.setState({ images }, this.validateImages);
+  // VALIDITY FOR IMAGE
+  updateImage = (e) => {
+    console.log(e.target.files[0]);
+    this.setState({ image: e.target.files[0] }, this.validateImage);
   };
 
-  validateImages = () => {
-    const { images } = this.state.property;
-    let imagesValid = true;
+  validateImage = () => {
+    const { image } = this.state;
+    console.log(image);
+    let imageValid = true;
     let errorMsg = { ...this.state.errorMsg };
-
-    if (images.length < 3) {
-      imagesValid = false;
-      errorMsg.images = "Must be at least 3 characters long";
+    if (!image) {
+      imageValid = false;
+      errorMsg.image = "Image field must not be empty";
+      this.setState({ preview: null });
     }
-
-    this.setState({ imagesValid, errorMsg }, this.validateForm);
+    // The below method creates a preview of the image
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      // console.log(reader.result);
+      this.setState({ preview: reader.result });
+    };
+    reader.readAsDataURL(image);
+    this.setState({ imageValid, errorMsg }, this.validateForm);
   };
 
   propertySubmitHandler = (e) => {
@@ -258,23 +270,24 @@ class UpdatePropertiesPage extends React.Component {
       amount: this.state.amount,
       completion: this.state.completion,
       description: this.state.description,
-      images: this.state.images,
+      image: this.state.image,
     }; // Sending this to the backend
+
+    const formData = new FormData();
+    formData.append("name", this.state.name);
+    formData.append("slug", this.state.slug);
+    formData.append("location", this.state.location);
+    formData.append("amount", this.state.amount);
+    formData.append("completion", this.state.completion);
+    formData.append("description", this.state.description);
+    formData.append("image", this.state.image);
 
     fetch(`http://localhost:7000/api/admin/properties/${propertyId}`, {
       method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: this.state.name,
-        slug: this.state.slug,
-        location: this.state.location,
-        amount: this.state.amount,
-        completion: this.state.completion,
-        description: this.state.description,
-        images: this.state.images,
-      }),
+      // headers: {
+      //   "Content-Type": "application/json",
+      // },
+      body: formData,
     })
       .then((response) => {
         response
@@ -412,18 +425,43 @@ class UpdatePropertiesPage extends React.Component {
             </div>
 
             <div className="form-group">
-              <label htmlFor="images">images</label>
+              <label htmlFor="image">image</label>
+
               <ValidationMessage
-                valid={this.state.imagesValid}
-                message={this.state.errorMsg.images}
+                valid={this.state.completionValid}
+                message={this.state.errorMsg.completion}
               />
+              {/* if there is an image preview display it else display the button */}
+              {this.state.preview ? (
+                <div className="preview-img">
+                  <img
+                    src={this.state.preview}
+                    onClick={() => {
+                      this.setState({ image: "", preview: null });
+                    }}
+                  />
+                </div>
+              ) : (
+                <button
+                  className="form-image-btn"
+                  // the below function with click method launches the file input
+                  onClick={(e) => {
+                    e.preventDefault();
+                    this.fileInputRef.current.click();
+                  }}
+                >
+                  add image
+                </button>
+              )}
+
               <input
-                type="text"
-                id="images"
-                name="images"
-                className="form-field"
-                value={this.state.images || ""}
-                onChange={(e) => this.updateImages(e.target.value)}
+                type="file"
+                id="image"
+                name="image"
+                className="form-file"
+                accept=".jpg, .png, .jpeg"
+                onChange={this.updateImage}
+                ref={this.fileInputRef}
               />
             </div>
 
