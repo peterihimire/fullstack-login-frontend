@@ -37,7 +37,6 @@ class UpdatePropertiesPage extends React.Component {
     };
   }
 
-
   componentDidMount() {
     // GETTING THE PROPERTY ID VIA PAGE-URL-PARAMS
     let propertyId = this.props.match.params.propertyId;
@@ -314,6 +313,9 @@ class UpdatePropertiesPage extends React.Component {
 
   render() {
     console.log(this.state);
+    console.log(this.state.image);
+    console.log(typeof this.state.image);
+    console.log(typeof `http://localhost:7000/${this.state.image}`);
     return (
       <div>
         <div className="App">
