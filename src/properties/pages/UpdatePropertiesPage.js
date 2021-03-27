@@ -1,5 +1,4 @@
 import React from "react";
-// import { useParams } from "react-router-dom";
 
 function ValidationMessage(props) {
   if (!props.valid) {
@@ -15,9 +14,6 @@ class UpdatePropertiesPage extends React.Component {
     // GETTING THE PROPERTY ID VIA PAGE-URL-PARAMS
     let propertyId = props.match.params.propertyId;
     console.log(propertyId);
-    // console.log(this.getProperty(propertyId));
-    // const singleProp = this.getProperty(propertyId);
-    // console.log(singleProp);
 
     this.state = {
       property: {},
@@ -41,8 +37,6 @@ class UpdatePropertiesPage extends React.Component {
     };
   }
 
-  // gets a single property based on the property id,
-  // getProperty = (propertyId) => {};
 
   componentDidMount() {
     // GETTING THE PROPERTY ID VIA PAGE-URL-PARAMS
@@ -62,7 +56,6 @@ class UpdatePropertiesPage extends React.Component {
               console.log(response);
               this.setState({
                 property: res.property,
-                //   // singlePro: response.property,
                 name: res.property.name || "",
                 slug: res.property.slug || "",
                 location: res.property.location || "",

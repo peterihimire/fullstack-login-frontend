@@ -249,7 +249,6 @@ class NewPropertyPage extends React.Component {
     fetch(`http://localhost:7000/api/admin/property/`, {
       method: "POST",
       headers: {
-        // "Content-Type": "application/json",
         Authorization: "Bearer " + this.context.token,
       },
       body: formData,

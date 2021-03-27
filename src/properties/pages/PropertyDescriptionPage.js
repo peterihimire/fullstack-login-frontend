@@ -1,16 +1,10 @@
 import React, { useEffect, useState } from "react";
-// import Detail from "../components/Detail";
-// import Footer from "../components/Footer";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 // import { PropertyContext } from "../context";
 import "./PropertyDescriptionPage.css";
 
 const PropertyDescriptionPage = (props) => {
-  // const context = useContext(PropertyContext);
-  // const { properties, getProperty } = context;
-  // console.log(context);
-  // console.log(properties, getProperty);
   console.log(props);
   console.log(props.match.params.id);
 
@@ -22,21 +16,6 @@ const PropertyDescriptionPage = (props) => {
   const [error, setError] = useState();
 
   console.log(propId);
-  // // To get a single property
-  // const getSingleProperty = (slug) => {
-  //   let myProperties = properties;
-
-  //   const singleP = myProperties.filter((property) => {
-  //     // console.log(property);
-  //     return property.slug === slug;
-  //   });
-
-  //   return singleP[0];
-  // };
-
-  // const property = getSingleProperty(slugState.slug);
-  // const property = getProperty(slugState.slug);
-  // console.log(setSlugState);
 
   // MAKE REQUEST FOR ALL PROPERTIES
   const getSingleProperty = () => {
@@ -126,3 +105,18 @@ const PropertyDescriptionPage = (props) => {
 };
 
 export default PropertyDescriptionPage;
+// // To get a single property
+// const getSingleProperty = (slug) => {
+//   let myProperties = properties;
+
+//   const singleP = myProperties.filter((property) => {
+//     // console.log(property);
+//     return property.slug === slug;
+//   });
+
+//   return singleP[0];
+// };
+
+// const property = getSingleProperty(slugState.slug);
+// const property = getProperty(slugState.slug);
+// console.log(setSlugState);
