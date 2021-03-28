@@ -57,6 +57,7 @@ function App() {
     setToken(null);
     setUserId(null);
     setAdmin(null);
+    setTokenExpiration(null);
     // LOGS USER OUT AND CLEARS DATA
     localStorage.removeItem("userData");
   }, []);
