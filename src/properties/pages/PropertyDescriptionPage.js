@@ -95,7 +95,7 @@ const PropertyDescriptionPage = (props) => {
               <h3>Amount</h3>
               <p className="amt">₦{loadedProperty.amount} Million</p>
               <h3>Completion</h3>
-              <p className="amt">₦{loadedProperty.completion} Million</p>
+              <p className="amt">{loadedProperty.completion}% payment completed </p>
             </div>
           </div>
         </section>

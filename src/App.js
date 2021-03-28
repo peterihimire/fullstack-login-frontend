@@ -9,7 +9,7 @@ import {
 import HomePage from "./properties/pages/HomePage";
 import PropertiesPage from "./properties/pages/PropertiesPage";
 import UpdatePropertiesPage from "./properties/pages/UpdatePropertiesPage";
-import UpdateImage from './properties/pages/UpdateImagePage';
+import UpdateImage from "./properties/pages/UpdateImagePage";
 import NewProperty from "./properties/pages/NewPropertyPage";
 import UsersPage from "./user/pages/UsersPage";
 import SingleUser from "./user/pages/SingleUserPage";
@@ -22,20 +22,33 @@ import Dashboard from "./user/pages/Dashboard";
 import { AuthContext } from "./shared/context/auth-context";
 import UpdateImagePage from "./properties/pages/UpdateImagePage";
 
+let logoutTimer;
+
 function App() {
   // const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [token, setToken] = useState(false);
   const [userId, setUserId] = useState(false);
   const [admin, setAdmin] = useState(false);
+  const [tokenExpiration, setTokenExpiration] = useState();
 
-  const login = useCallback((uid, token, admin) => {
+  const login = useCallback((uid, token, admin, expirationDate) => {
     // setIsLoggedIn(true);
     setToken(token);
     setUserId(uid);
     setAdmin(admin);
+    const tokenExpirationDate =
+      expirationDate || new Date(new Date().getTime() + 1000 * 60 * 60);
+
+    setTokenExpiration(tokenExpirationDate);
+
     localStorage.setItem(
       "userData",
-      JSON.stringify({ userId: uid, token: token, admin: admin })
+      JSON.stringify({
+        userId: uid,
+        token: token,
+        admin: admin,
+        expiration: tokenExpirationDate.toISOString(),
+      })
     );
   }, []);
 
@@ -48,11 +61,31 @@ function App() {
     localStorage.removeItem("userData");
   }, []);
 
+  // IF TOKEN CHANGES, CAUSE IT IS A DEPENDENCY, THEN WE WILL WORK WITH OUR TIMER
+  useEffect(() => {
+    if (token && tokenExpiration) {
+      const remainingTime = tokenExpiration.getTime() - new Date().getTime();
+      logoutTimer = setTimeout(logout, remainingTime);
+    } else {
+      clearTimeout(logoutTimer);
+    }
+  }, [token, logout, tokenExpiration]);
+
   // MAKES SURE WHEN PAGE RELOADS THE USER IS LOGGED IN
   useEffect(() => {
     const storedData = JSON.parse(localStorage.getItem("userData"));
-    if (storedData && storedData.token && storedData.admin) {
-      login(storedData.userId, storedData.token, storedData.admin);
+    if (
+      storedData &&
+      storedData.token &&
+      storedData.admin &&
+      new Date(storedData.expiration) > new Date()
+    ) {
+      login(
+        storedData.userId,
+        storedData.token,
+        storedData.admin,
+        new Date(storedData.expiration)
+      );
     }
   }, [login]);
 
@@ -76,7 +109,7 @@ function App() {
           exact
           component={UpdatePropertiesPage}
         />
-          <Route
+        <Route
           path="/update-image/:propertyId"
           exact
           component={UpdateImagePage}

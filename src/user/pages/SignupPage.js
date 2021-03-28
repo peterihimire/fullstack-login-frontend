@@ -20,7 +20,7 @@ class SignupPage extends React.Component {
     passwordValid: false,
     passwordConfirm: "",
     passwordConfirmValid: false,
-    adminCode: "",
+    adminCode: "12345",
     adminCodeValid: false,
     formValid: false,
     errorMsg: {},
