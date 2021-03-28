@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function ValidationMessage(props) {
   if (!props.valid) {
@@ -272,7 +273,7 @@ class UpdatePropertiesPage extends React.Component {
     formData.append("amount", this.state.amount);
     formData.append("completion", this.state.completion);
     formData.append("description", this.state.description);
-    formData.append("image", this.state.image);
+    // formData.append("image", this.state.image);
 
     fetch(`http://localhost:7000/api/admin/properties/${propertyId}`, {
       method: "PUT",
@@ -316,6 +317,7 @@ class UpdatePropertiesPage extends React.Component {
     console.log(this.state.image);
     console.log(typeof this.state.image);
     console.log(typeof `http://localhost:7000/${this.state.image}`);
+    let propertyId = this.props.match.params.propertyId;
     return (
       <div>
         <div className="App">
@@ -426,16 +428,17 @@ class UpdatePropertiesPage extends React.Component {
                 valid={this.state.completionValid}
                 message={this.state.errorMsg.completion}
               />
-              {/* if there is an image preview display it else display the button */}
               {this.state.preview ? (
-                <div className="preview-img">
-                  <img
-                    src={this.state.preview}
-                    onClick={() => {
-                      this.setState({ image: "", preview: null });
-                    }}
-                  />
-                </div>
+                <Link to={`/update-image/${propertyId}`} className="">
+                  <div className="preview-img">
+                    <img
+                      src={this.state.preview}
+                      // onClick={() => {
+                      //   this.setState({ image: "", preview: null });
+                      // }}
+                    />
+                  </div>
+                </Link>
               ) : (
                 <button
                   className="form-image-btn"
@@ -459,6 +462,48 @@ class UpdatePropertiesPage extends React.Component {
                 ref={this.fileInputRef}
               />
             </div>
+
+            {/* <div className="form-group">
+              <label htmlFor="image">image</label>
+
+              <ValidationMessage
+                valid={this.state.completionValid}
+                message={this.state.errorMsg.completion}
+              />
+              {this.state.preview ? (
+                <Link to="/update-image" className="">
+                  <div className="preview-img">
+                    <img
+                      src={this.state.preview}
+                      onClick={() => {
+                        this.setState({ image: "", preview: null });
+                      }}
+                    />
+                  </div>
+                </Link>
+              ) : (
+                <button
+                  className="form-image-btn"
+                  // the below function with click method launches the file input
+                  onClick={(e) => {
+                    e.preventDefault();
+                    this.fileInputRef.current.click();
+                  }}
+                >
+                  add image
+                </button>
+              )}
+
+              <input
+                type="file"
+                id="image"
+                name="image"
+                className="form-file"
+                accept=".jpg, .png, .jpeg"
+                onChange={this.updateImage}
+                ref={this.fileInputRef}
+              />
+            </div> */}
 
             <div className="form-controls">
               <button

@@ -9,6 +9,7 @@ import {
 import HomePage from "./properties/pages/HomePage";
 import PropertiesPage from "./properties/pages/PropertiesPage";
 import UpdatePropertiesPage from "./properties/pages/UpdatePropertiesPage";
+import UpdateImage from './properties/pages/UpdateImagePage';
 import NewProperty from "./properties/pages/NewPropertyPage";
 import UsersPage from "./user/pages/UsersPage";
 import SingleUser from "./user/pages/SingleUserPage";
@@ -19,6 +20,7 @@ import LoginPage from "./user/pages/LoginPage";
 import SignupPage from "./user/pages/SignupPage";
 import Dashboard from "./user/pages/Dashboard";
 import { AuthContext } from "./shared/context/auth-context";
+import UpdateImagePage from "./properties/pages/UpdateImagePage";
 
 function App() {
   // const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -73,6 +75,11 @@ function App() {
           path="/properties/:propertyId"
           exact
           component={UpdatePropertiesPage}
+        />
+          <Route
+          path="/update-image/:propertyId"
+          exact
+          component={UpdateImagePage}
         />
         <Route path="/profile" exact component={Dashboard} />
         <Route
