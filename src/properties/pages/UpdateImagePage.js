@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
 function ValidationMessage(props) {
   if (!props.valid) {
@@ -18,18 +17,7 @@ class UpdateImagePage extends React.Component {
 
     this.state = {
       property: {},
-      name: "",
-      nameValid: true,
-      slug: "",
-      slugValid: true,
-      location: "",
-      locationValid: true,
-      amount: "",
-      amountValid: true,
-      completion: "",
-      completionValid: true,
-      description: "",
-      descriptionValid: true,
+
       image: "",
       imageValid: true,
       preview: "",
@@ -55,13 +43,6 @@ class UpdateImagePage extends React.Component {
               // this.setState({ loading: false });
               console.log(response);
               this.setState({
-                property: res.property,
-                name: res.property.name || "",
-                slug: res.property.slug || "",
-                location: res.property.location || "",
-                amount: res.property.amount || "",
-                completion: res.property.completion || "",
-                description: res.property.description || "",
                 image: res.property.image || "",
                 preview: `http://localhost:7000/${res.property.image}`,
               });
@@ -94,135 +75,10 @@ class UpdateImagePage extends React.Component {
   }
 
   validateForm = () => {
-    const {
-      nameValid,
-      slugValid,
-      locationValid,
-      amountValid,
-      completionValid,
-      descriptionValid,
-      imageValid,
-    } = this.state;
+    const { imageValid } = this.state;
     this.setState({
-      formValid:
-        nameValid &&
-        slugValid &&
-        locationValid &&
-        amountValid &&
-        completionValid &&
-        descriptionValid &&
-        imageValid,
+      formValid: imageValid,
     });
-  };
-
-  // VALIDITY FOR NAME
-  updateName = (name) => {
-    this.setState({ name }, this.validateName);
-  };
-
-  validateName = () => {
-    console.log(this.state);
-    const { name } = this.state.property;
-    console.log(name);
-    let nameValid = true;
-    let errorMsg = { ...this.state.errorMsg };
-
-    if (name.length < 3) {
-      nameValid = false;
-      errorMsg.name = "Must be at least 3 characters long";
-    }
-
-    this.setState({ nameValid, errorMsg }, this.validateForm);
-  };
-
-  // VALIDITY FOR SLUG
-  updateSlug = (slug) => {
-    this.setState({ slug }, this.validateSlug);
-  };
-
-  validateSlug = () => {
-    const { slug } = this.state.property;
-    let slugValid = true;
-    let errorMsg = { ...this.state.errorMsg };
-
-    if (slug.length < 3) {
-      slugValid = false;
-      errorMsg.slug = "Must be at least 3 characters long";
-    }
-
-    this.setState({ slugValid, errorMsg }, this.validateForm);
-  };
-
-  // VALIDITY FOR LOCATION
-  updateLocation = (location) => {
-    this.setState({ location }, this.validateLocation);
-  };
-
-  validateLocation = () => {
-    const { location } = this.state.property;
-    let locationValid = true;
-    let errorMsg = { ...this.state.errorMsg };
-
-    if (location.length < 3) {
-      locationValid = false;
-      errorMsg.location = "Must be at least 3 characters long";
-    }
-
-    this.setState({ locationValid, errorMsg }, this.validateForm);
-  };
-
-  // VALIDITY FOR AMOUNT
-  updateAmount = (amount) => {
-    this.setState({ amount }, this.validateAmount);
-  };
-
-  validateAmount = () => {
-    const { amount } = this.state.property;
-    let amountValid = true;
-    let errorMsg = { ...this.state.errorMsg };
-
-    if (amount.length < 3) {
-      amountValid = false;
-      errorMsg.amount = "Must be at least 3 characters long";
-    }
-
-    this.setState({ amountValid, errorMsg }, this.validateForm);
-  };
-
-  // VALIDITY FOR COMPLETION
-  updateCompletion = (completion) => {
-    this.setState({ completion }, this.validateCompletion);
-  };
-
-  validateCompletion = () => {
-    const { completion } = this.state;
-    let completionValid = true;
-    let errorMsg = { ...this.state.errorMsg };
-
-    if (completion.length < 3) {
-      completionValid = false;
-      errorMsg.completion = "Must be at least 3 characters long";
-    }
-
-    this.setState({ completionValid, errorMsg }, this.validateForm);
-  };
-
-  // VALIDITY FOR DESCRIPTION
-  updateDescription = (description) => {
-    this.setState({ description }, this.validateDescription);
-  };
-
-  validateDescription = () => {
-    const { description } = this.state.property;
-    let descriptionValid = true;
-    let errorMsg = { ...this.state.errorMsg };
-
-    if (description.length < 3) {
-      descriptionValid = false;
-      errorMsg.description = "Must be at least 3 characters long";
-    }
-
-    this.setState({ descriptionValid, errorMsg }, this.validateForm);
   };
 
   // VALIDITY FOR IMAGE
@@ -257,22 +113,10 @@ class UpdateImagePage extends React.Component {
     let propertyId = this.props.match.params.propertyId;
 
     const data = {
-      // name: this.state.name,
-      // slug: this.state.slug,
-      // location: this.state.location,
-      // amount: this.state.amount,
-      // completion: this.state.completion,
-      // description: this.state.description,
       image: this.state.image,
     }; // Sending this to the backend
 
     const formData = new FormData();
-    // formData.append("name", this.state.name);
-    // formData.append("slug", this.state.slug);
-    // formData.append("location", this.state.location);
-    // formData.append("amount", this.state.amount);
-    // formData.append("completion", this.state.completion);
-    // formData.append("description", this.state.description);
     formData.append("image", this.state.image);
 
     fetch(`http://localhost:7000/api/admin/properties/${propertyId}`, {
